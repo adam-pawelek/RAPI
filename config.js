@@ -4,5 +4,6 @@ module.exports = {
   database_port: 5430,
   database_user: '',
   database_pass: '',
-  database_db: 'monkey_db'
+  database_db: '',
+  bucketname: 'imager'
 }

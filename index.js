@@ -1,4 +1,5 @@
-const { sequelize } = require('./database')
+const { sequelize, User } = require('./database')
+const Config = require('./config')
 
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
@@ -17,9 +18,10 @@ server.route(Routes)
 // Wrapper function for the server start
 const start = async function () {
   try {
+    // Define a authentication strategy
     await server.register(Jwt)
-    server.auth.strategy('my_jwt_strategy', 'jwt', {
-      keys: 'sshhhhhshshh',
+    server.auth.strategy('jwt_strategy', 'jwt', {
+      keys: Config.jwt_secret,
       verify: {
         aud: false,
         iss: false,
@@ -29,20 +31,24 @@ const start = async function () {
         maxAgeSec: 14400, // 4 hours
         timeSkewSec: 15
       },
-      validate: (artifacts, request, h) => {
+      validate: async (artifacts, request, h) => {
         return {
           isValid: true,
-          credentials: { user: artifacts.decoded.payload.user }
+          credentials: {
+            user: artifacts.decoded.payload.user,
+            // If we are a valid user, fetch the users model from database
+            // This makes it easy for us the interact with it later
+            model: await User.findByPk(artifacts.decoded.payload.user.id)
+          }
         }
       }
     })
 
-    // Set the strategy
-
-    server.auth.default('my_jwt_strategy')
+    // Set the default auth strategy
+    server.auth.default('jwt_strategy')
 
     await server.start()
-    await sequelize.sync({ force: true })
+    await sequelize.sync({ force: false }) // force: true = recreates the database on each startup
     console.log('Connection has been established successfully.')
   } catch (err) {
     console.log(err)
