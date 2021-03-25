@@ -13,8 +13,18 @@ const sequelize = new Sequelize({
   database: config.database_db
 })
 
+const Image = ImageModel(sequelize)
+const User = UserModel(sequelize)
+
+// Create associations for foreign keys
+Image.belongsTo(User, { allowNull: true })
+User.hasMany(Image)
+
+// User might have many favorite images
+// User.hasMany(Image, { as: 'Favorite' })
+
 module.exports = {
   sequelize,
-  Image: ImageModel(sequelize),
-  User: UserModel(sequelize)
+  Image,
+  User
 }
