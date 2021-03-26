@@ -12,30 +12,26 @@ To you can take a look at the package.json file to see what node modules are ins
 
 ### Planned routes
 
-- POST /image
-- GET /image?limit=10&page=1
-- GET /image/trending
-- DELETE /image/<image-id>
-- PUT /image/<image-id>/vote
-- PUT /image/<image-id>/favorite
-- POST /image/<image-id>/comment -> CREATE
+- [ ] POST /image
+- [ ] GET /image?limit=10&page=1
+- [ ] GET /image/trending
+- [ ] DELETE /image/<image-id>
+- [ ] PUT /image/<image-id>/vote
+- [ ] PUT /image/<image-id>/favorite
+- [ ] POST /image/<image-id>/comment -> CREATE
 
-- PUT /comment/<comment-id> -> EDIT
-- DELETE /comment/<comment-id>
+- [ ] PUT /comment/<comment-id> -> EDIT
+- [ ] DELETE /comment/<comment-id>
 
-- GET /user/<user-id>/image
+- [ ] GET /user/<user-id>/image
 
-- GET /me -> Check JWT data
-- GET /me/favorites
-- GET /me/favorites/export
-- GET /me/comments
+- [ ] GET /me -> Check JWT data
+- [ ] GET /me/favorites
+- [ ] GET /me/favorites/export
+- [ ] GET /me/comments
 
-- POST /auth/register
-- POST /auth/login
-- GET /auth/logout
+- [x] POST /auth/register
+- [x] POST /auth/login
+- [ ] GET /auth/logout
 
-- POST /auth/register
-- POST /auth/login
-- GET /auth/logout
-
-- GET /ping -> 200 OK
+- [x] GET /ping -> 200 OK
