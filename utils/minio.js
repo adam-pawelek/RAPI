@@ -28,6 +28,19 @@ const listBucketFiles = (bucketname) => {
   })
 }
 
+
+const removeFileFromBucket = (bucketname, filename) => {
+  return new Promise((resolve, reject) => {
+    return minioClient.removeObject(bucketname, filename, function(err) {
+      if (err) {
+         reject('Unable to remove object', err);
+      } else {
+         resolve('Removed the object');
+      }
+    })
+  })
+}
+
 // Initialization fuction to setup our environemnt
 const setupMinio = async () => {
   try {
@@ -66,5 +79,6 @@ setupMinio()
 
 module.exports = {
   listBucketFiles,
+  removeFileFromBucket,
   minioClient
 }
