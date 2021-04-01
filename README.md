@@ -12,10 +12,14 @@ To you can take a look at the package.json file to see what node modules are ins
 
 ### Planned routes
 
+- [ ] (*) image routes need combined endpoint
+  
+  <br>
+  
 - [ ] POST /image
-- [ ] GET /image?limit=10&page=1
+- [ ] GET /image?limit=10&page=1 --> for DB done
 - [ ] GET /image/trending
-- [ ] DELETE /image/<image-id>
+- [x] DELETE /image/<image-id> --> for DB & minio done (*)
 - [ ] PUT /image/<image-id>/vote
 - [ ] PUT /image/<image-id>/favorite
 - [ ] POST /image/<image-id>/comment -> CREATE

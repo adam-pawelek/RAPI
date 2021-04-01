@@ -1,7 +1,8 @@
 const pingRoutes = require('./ping/handler')
 
-const findImageRoutes = require('./image/find')
 const createImageRoutes = require('./image/create')
+const findImageRoutes = require('./image/find')
+const removeImageRoutes = require('./image/remove')
 
 const authRoutes = require('./auth/handler')
 
@@ -10,8 +11,9 @@ module.exports = [
   // ... unwraps the array of routes from the imported modules
   ...pingRoutes,
 
-  ...findImageRoutes,
   ...createImageRoutes,
+  ...findImageRoutes,
+  ...removeImageRoutes,
 
   ...authRoutes
 ]
