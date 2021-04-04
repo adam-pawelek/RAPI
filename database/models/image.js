@@ -9,6 +9,13 @@ module.exports = function (database) {
     },
     filename: {
       type: Sequelize.TEXT
+    },
+    username: {
+      type: Sequelize.TEXT
+    },
+    // Can be private (false) or public (true) for later
+    status: {
+      type: Sequelize.BOOLEAN
     }
   })
 }
