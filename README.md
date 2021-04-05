@@ -29,7 +29,7 @@ To you can take a look at the package.json file to see what node modules are ins
 
 - [ ] GET /user/<user-id>/image
 
-- [ ] GET /me -> Check JWT data
+- [x] GET /me -> Check JWT data
 - [ ] GET /me/favorites
 - [ ] GET /me/favorites/export
 - [ ] GET /me/comments
