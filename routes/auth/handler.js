@@ -14,11 +14,12 @@ module.exports = [
     handler: async function (request, h) {
       const newUser = await User.create({
         username: request.payload.username,
-        password: bcrypt.hashSync(request.payload.password, 10)
+        password: bcrypt.hashSync(request.payload.password, 10),
+        role: request.payload.role
       })
 
       return User.findOne({
-        attributes: ['id', 'username'],
+        attributes: ['id', 'username', 'role'],
         where: {
           id: newUser.id
         }
