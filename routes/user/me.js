@@ -1,6 +1,5 @@
-// const Config = require('../../config')
+const Config = require('../../config')
 const { User } = require('../../database')
-// const { Image } = require('../../database')
 // const { minioClient } = require('../../utils/minio')
 const jwt = require('jsonwebtoken')
 
@@ -8,27 +7,24 @@ module.exports = [
   {
     method: 'GET',
     path: '/me',
-    handler: async function (request, h) {
-      // Which user are you?
-      // getJWToken
-      // Show all information belonging to me
-      try {
-        // const user = await jwt.decode(request.)
-        const user = await User.findOne({
-          where: {
-            username: request.payload.username
-          }
-        }, {
-          rejectOnEmpty: true
-        })
-        return user.map(userData => (
-          {
-            ...userData.toJSON()
-          }
-        ))
-      } catch (err) {
-        return h.response().code(401)
-      }
+    handler:  async function (request, h) {
+      let userToken = await request.headers
+      const token = userToken.authorization.split(' ');
+      const decoded = jwt.verify(token[1], Config.jwt_secret );
+
+      let user = decoded.user;
+      console.log(user.name);
+
+      const me = await User.findAll({
+        where: {
+          username: user.name
+        }
+      })
+
+      console.log(me[0]);
+      return { msg: 'Success', me }
     }
   }
 ]
+
+
