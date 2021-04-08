@@ -6,6 +6,9 @@ module.exports = [
   {
     method: 'GET',
     path: '/me',
+    auth:{
+      scopes: ['admin', 'user']
+    },
     handler:  async function (request, h) {
       let userToken = await request.headers
       const token = userToken.authorization.split(' ');

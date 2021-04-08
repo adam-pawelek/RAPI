@@ -17,5 +17,7 @@ module.exports = function (database) {
     role: {
       type: Sequelize.TEXT
     }
+    //scope:
+    //type: [ Sequelize.TEXT ]
   })
 }

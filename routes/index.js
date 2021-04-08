@@ -7,6 +7,7 @@ const reportImageRoutes = require('./image/report')
 
 const authRoutes = require('./auth/handler')
 
+const adminRoutes = require('./user/admin')
 const listUserData = require('./user/me')
 
 // This must return an array
@@ -21,5 +22,6 @@ module.exports = [
 
   ...authRoutes,
 
+  ...adminRoutes,
   ...listUserData
 ]
