@@ -7,7 +7,7 @@ module.exports = [
     },
     handler: function (request, h) {
       // Just an empty response with status 200 OK
-      return h.response().code(200)
+      return h.response('Hello from ping').code(200)
     }
   }
 ]
