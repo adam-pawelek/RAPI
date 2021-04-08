@@ -12,6 +12,10 @@ module.exports = function (database) {
     },
     password: {
       type: Sequelize.TEXT
+    },
+    // can be admin, user, anonymous later on
+    role: {
+      type: Sequelize.TEXT
     }
   })
 }

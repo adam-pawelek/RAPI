@@ -6,6 +6,8 @@ const removeImageRoutes = require('./image/remove')
 
 const authRoutes = require('./auth/handler')
 
+const listUserData = require('./user/me')
+
 // This must return an array
 module.exports = [
   // ... unwraps the array of routes from the imported modules
@@ -15,5 +17,7 @@ module.exports = [
   ...findImageRoutes,
   ...removeImageRoutes,
 
-  ...authRoutes
+  ...authRoutes,
+
+  ...listUserData
 ]

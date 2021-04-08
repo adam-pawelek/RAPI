@@ -27,9 +27,9 @@ To you can take a look at the package.json file to see what node modules are ins
 - [ ] PUT /comment/<comment-id> -> EDIT
 - [ ] DELETE /comment/<comment-id>
 
-- [ ] GET /user/<user-id>/image
+- [x] GET /user/<user-id>/image -> route is /image/<user-id> but same functionality --> for DB done
 
-- [ ] GET /me -> Check JWT data
+- [x] GET /me -> Check JWT data
 - [ ] GET /me/favorites
 - [ ] GET /me/favorites/export
 - [ ] GET /me/comments

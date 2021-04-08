@@ -3,15 +3,26 @@ const uuid = require('uuid')
 const Config = require('../../config')
 const { Image } = require('../../database')
 const { minioClient } = require('../../utils/minio')
+const jwt = require('jsonwebtoken')
 
 module.exports = [
   {
     method: 'POST',
     path: '/image',
-    handler: function (request, h) {
+    handler: async function (request, h) {
+
+      let userToken = await request.headers
+      const token = userToken.authorization.split(' ')
+      const decoded = jwt.verify(token[1], Config.jwt_secret)
+
+      let user = decoded.user
+
       return Image.create({
         // Storing with date as filename is bad and can cause collisions
-        filename: `image-${new Date().toDateString()}`
+        filename: `image-${new Date().toDateString()}`,
+        username: user.name,
+        status: true,
+        userId: user.id
       })
     }
   },
