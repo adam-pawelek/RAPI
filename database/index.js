@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize')
 
 const ImageModel = require('./models/image')
+const NoticeModel = require('./models/notice')
 const UserModel = require('./models/user')
 const config = require('../config')
 
@@ -14,6 +15,7 @@ const sequelize = new Sequelize({
 })
 
 const Image = ImageModel(sequelize)
+const Notice = NoticeModel(sequelize)
 const User = UserModel(sequelize)
 
 // Create associations for foreign keys
@@ -26,5 +28,6 @@ User.hasMany(Image)
 module.exports = {
   sequelize,
   Image,
+  Notice,
   User
 }
