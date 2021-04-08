@@ -20,7 +20,7 @@ module.exports = [
         }
       })
 
-      return { msg: 'Success', me }
+      return { msg: 'Success! This is ME', me }
     }
   }
 ]

@@ -16,7 +16,6 @@ module.exports = [
       const decoded = jwt.verify(token[1], Config.jwt_secret)
 
       let user = decoded.user
-      //let nameLoggedIn = user.name
 
       return Image.create({
         // Storing with date as filename is bad and can cause collisions

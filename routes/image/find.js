@@ -57,13 +57,25 @@ module.exports = [
     options: {
       auth: false,
       validate: {
-          query: Joi.object({
-            id: Joi.string().guid({   version: ['uuidv4']})
-          })
-        }
+        query: Joi.object({
+          id: Joi.string().guid({ version: ['uuidv4'] })
+        })
+      }
     },
-    handler: function (request, h) {
+    handler: async function (request, h) {
+      try {
+        let userId = request.params.id;
 
+        const userImages = await Image.findAll({
+          where: {
+            userId: userId
+          }
+        })
+
+        return {msg: 'Here are all images belonging to the requested user', userImages}
+      } catch (error) {
+        return h.response(' Error ' + error.message).code(500)
+      }
     }
   }
 ]
