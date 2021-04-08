@@ -23,6 +23,7 @@ To you can take a look at the package.json file to see what node modules are ins
 - [ ] PUT /image/<image-id>/vote
 - [ ] PUT /image/<image-id>/favorite
 - [ ] POST /image/<image-id>/comment -> CREATE
+- [x] POST /image/<image-id>/report
 
 - [ ] PUT /comment/<comment-id> -> EDIT
 - [ ] DELETE /comment/<comment-id>

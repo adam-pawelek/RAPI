@@ -3,6 +3,7 @@ const pingRoutes = require('./ping/handler')
 const createImageRoutes = require('./image/create')
 const findImageRoutes = require('./image/find')
 const removeImageRoutes = require('./image/remove')
+const reportImageRoutes = require('./image/report')
 
 const authRoutes = require('./auth/handler')
 
@@ -16,6 +17,7 @@ module.exports = [
   ...createImageRoutes,
   ...findImageRoutes,
   ...removeImageRoutes,
+  ...reportImageRoutes,
 
   ...authRoutes,
 
