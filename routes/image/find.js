@@ -10,26 +10,24 @@ module.exports = [
     options: {
       validate: {
         query: Joi.object({
-          limit: Joi.number().integer().min(1).max(100).default(2),
+          limit: Joi.number().integer().min(1).max(100).default(10),
           page: Joi.number().integer().min(1).default(1),
           all: Joi.bool().default(false)
         })
       }
     },
     handler: async function (request, h) {
+      let images
       if (request.query.all === false) { // Find images in database with limit and pagination
-        // eslint-disable-next-line no-unused-vars
-        const images = await Image.findAll({
+        images = await Image.findAll({
           offset: (request.query.page - 1) * request.query.limit,
           limit: request.query.limit
         })
       } else { // Get all images from database
-        // eslint-disable-next-line no-unused-vars
-        const images = await Image.findAll()
+        images = await Image.findAll()
       }
 
       // Map through results and
-      // eslint-disable-next-line no-undef
       return images.map(image => (
         {
           ...image.toJSON(), // We dont want the whole sequelize model, just data
@@ -51,6 +49,21 @@ module.exports = [
         Our utility function promisifies that
       */
       return listBucketFiles(Config.bucketname)
+    }
+  },
+  {
+    method: 'GET',
+    path: '/image/{id}',
+    options: {
+      auth: false,
+      validate: {
+          query: Joi.object({
+            id: Joi.string().guid({   version: ['uuidv4']})
+          })
+        }
+    },
+    handler: function (request, h) {
+
     }
   }
 ]

@@ -1,6 +1,5 @@
 const Config = require('../../config')
 const { User } = require('../../database')
-// const { minioClient } = require('../../utils/minio')
 const jwt = require('jsonwebtoken')
 
 module.exports = [
@@ -21,7 +20,6 @@ module.exports = [
         }
       })
 
-      console.log(me[0]);
       return { msg: 'Success', me }
     }
   }
