@@ -5,6 +5,8 @@ const findImageRoutes = require('./image/find')
 const removeImageRoutes = require('./image/remove')
 const reportImageRoutes = require('./image/report')
 
+const createAndFindCommentRoutes = require('./comment/create')
+
 const authRoutes = require('./auth/handler')
 
 const adminRoutes = require('./user/admin')
@@ -19,6 +21,8 @@ module.exports = [
   ...findImageRoutes,
   ...removeImageRoutes,
   ...reportImageRoutes,
+
+  ...createAndFindCommentRoutes,
 
   ...authRoutes,
 
