@@ -1,24 +1,47 @@
-const Config = require('../../config')
 const { User } = require('../../database')
-const jwt = require('jsonwebtoken')
+const { Notice } = require('../../database')
 
 module.exports = [
   {
     method: 'GET',
     path: '/admin/user',
-    auth: {
-      scopes: ['admin']
-    },
-    handler: async function (request, h) {
+    config: {
+      auth:  {
+        strategy: 'jwt_strategy',
+        scope: User.scope = 'admin'
+      }
+      ,
+      handler: async function (request, h) {
 
-      const allUsers = await User.findAll()
+        const allUsers = await User.findAll()
 
-      return allUsers.map(userList => (
-        {
-          ...userList.toJSON()
-        }
-      ))
-      //return { msg: 'Success! This is ME', me }
+        return allUsers.map(userList => (
+          {
+            ...userList.toJSON()
+          }
+        ))
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/admin/notice',
+    config: {
+      auth:  {
+        strategy: 'jwt_strategy',
+        scope: User.scope = 'admin'
+      }
+      ,
+      handler: async function (request, h) {
+
+        const allNotices = await Notice.findAll()
+
+        return allNotices.map(noticeList => (
+          {
+            ...noticeList.toJSON()
+          }
+        ))
+      }
     }
   }
 ]

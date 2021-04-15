@@ -15,11 +15,11 @@ module.exports = [
       const newUser = await User.create({
         username: request.payload.username,
         password: bcrypt.hashSync(request.payload.password, 10),
-        role: request.payload.role
+        scope: request.payload.scope
       })
 
       return User.findOne({
-        attributes: ['id', 'username', 'role'],
+        attributes: ['id', 'username', 'scope'],
         where: {
           id: newUser.id
         }
@@ -48,7 +48,7 @@ module.exports = [
               id: user.id,
               name: user.username
             },
-            scope: ['admin', 'user', 'anonymous']
+            scope: [user.scope]
           }, config.jwt_secret)
           return { msg: 'Success', token }
         }

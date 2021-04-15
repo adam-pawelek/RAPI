@@ -12,8 +12,7 @@ const server = Hapi.server({
   port: 8000
 })
 
-// Add the routes
-server.route(Routes)
+
 
 // Wrapper function for the server start
 const start = async function () {
@@ -49,8 +48,11 @@ const start = async function () {
     // Set the default auth strategy
     server.auth.default('jwt_strategy')
 
+    // Add the routes
+    server.route(Routes)
+
     await server.start()
-    await sequelize.sync({ force: true }) // force: true = recreates the database on each startup
+    await sequelize.sync({ force: false }) // force: true = recreates the database on each startup
     console.log('Connection has been established successfully.')
   } catch (err) {
     console.log(err)
