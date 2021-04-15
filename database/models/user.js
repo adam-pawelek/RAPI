@@ -14,7 +14,7 @@ module.exports = function (database) {
       type: Sequelize.TEXT
     },
     // can be admin, user, anonymous later on
-    role: {
+    scope:{
       type: Sequelize.TEXT
     }
   })

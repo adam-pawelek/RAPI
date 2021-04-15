@@ -1,26 +1,45 @@
-const Config = require('../../config')
-const { User } = require('../../database')
-const jwt = require('jsonwebtoken')
 
 module.exports = [
   {
     method: 'GET',
     path: '/me',
-    handler:  async function (request, h) {
-      let userToken = await request.headers
-      const token = userToken.authorization.split(' ');
-      const decoded = jwt.verify(token[1], Config.jwt_secret );
+    config: {
+      auth: {
+        scope: ['admin', 'user']
+      },
+      handler: async function (request, h) {
 
-      let user = decoded.user;
-      console.log(user.name);
+        let user = request.auth.credentials.user
 
-      const me = await User.findAll({
-        where: {
-          username: user.name
+        console.log(user.name);
+
+        const me = request.auth.credentials.model
+
+        return {
+          msg: 'Success! This is ME',
+          me
         }
-      })
+      }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/me/image',
+    config: {
+      auth: {
+        scope: ['admin', 'user']
+      },
+      handler: async function (request, h) {
 
-      return { msg: 'Success! This is ME', me }
+        const me = request.auth.credentials.model
+
+        const myImages = await me.getImages()
+
+        return {
+          msg: 'Success! These are all my posted images',
+          myImages
+        }
+      }
     }
   }
 ]

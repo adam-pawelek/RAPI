@@ -12,8 +12,7 @@ const server = Hapi.server({
   port: 8000
 })
 
-// Add the routes
-server.route(Routes)
+
 
 // Wrapper function for the server start
 const start = async function () {
@@ -32,10 +31,12 @@ const start = async function () {
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
+        //const {scope} = await User.findByPk(artifacts.decoded.payload.user.id)
         return {
           isValid: true,
           credentials: {
             user: artifacts.decoded.payload.user,
+            scope: artifacts.decoded.payload.scope,
             // If we are a valid user, fetch the users model from database
             // This makes it easy for us the interact with it later
             model: await User.findByPk(artifacts.decoded.payload.user.id)
@@ -46,6 +47,9 @@ const start = async function () {
 
     // Set the default auth strategy
     server.auth.default('jwt_strategy')
+
+    // Add the routes
+    server.route(Routes)
 
     await server.start()
     await sequelize.sync({ force: false }) // force: true = recreates the database on each startup

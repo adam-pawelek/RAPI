@@ -10,10 +10,11 @@ module.exports = [
         let imageId = request.params.id
         console.log('ImageID: ' + imageId)
 
-        let userToken = await request.headers
-        const token = userToken.authorization.split(' ')
-        const decoded = jwt.verify(token[1], Config.jwt_secret)
-        let user = decoded.user
+        let user = request.auth.credentials.user
+        // let userToken = await request.headers
+        // const token = userToken.authorization.split(' ')
+        // const decoded = jwt.verify(token[1], Config.jwt_secret)
+        // let user = decoded.user
         console.log('UserID: ' + user.id)
 
         return Notice.create({

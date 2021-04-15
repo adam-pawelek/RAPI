@@ -11,11 +11,7 @@ module.exports = [
     path: '/image',
     handler: async function (request, h) {
 
-      let userToken = await request.headers
-      const token = userToken.authorization.split(' ')
-      const decoded = jwt.verify(token[1], Config.jwt_secret)
-
-      let user = decoded.user
+      let user = request.auth.credentials.user
 
       return Image.create({
         // Storing with date as filename is bad and can cause collisions
