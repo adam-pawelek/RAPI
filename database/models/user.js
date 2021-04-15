@@ -14,10 +14,11 @@ module.exports = function (database) {
       type: Sequelize.TEXT
     },
     // can be admin, user, anonymous later on
-    role: {
-      type: Sequelize.TEXT
+    // role: {
+    //   type: Sequelize.TEXT
+    // }
+    scope:{
+      type: [ Sequelize.TEXT ]
     }
-    //scope:
-    //type: [ Sequelize.TEXT ]
   })
 }

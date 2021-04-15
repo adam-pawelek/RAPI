@@ -47,7 +47,8 @@ module.exports = [
             user: {
               id: user.id,
               name: user.username
-            }
+            },
+            scope: ['admin', 'user', 'anonymous']
           }, config.jwt_secret)
           return { msg: 'Success', token }
         }

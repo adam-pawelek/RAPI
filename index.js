@@ -32,10 +32,12 @@ const start = async function () {
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
+        //const {scope} = await User.findByPk(artifacts.decoded.payload.user.id)
         return {
           isValid: true,
           credentials: {
             user: artifacts.decoded.payload.user,
+            scope: artifacts.decoded.payload.scope,
             // If we are a valid user, fetch the users model from database
             // This makes it easy for us the interact with it later
             model: await User.findByPk(artifacts.decoded.payload.user.id)
@@ -48,7 +50,7 @@ const start = async function () {
     server.auth.default('jwt_strategy')
 
     await server.start()
-    await sequelize.sync({ force: false }) // force: true = recreates the database on each startup
+    await sequelize.sync({ force: true }) // force: true = recreates the database on each startup
     console.log('Connection has been established successfully.')
   } catch (err) {
     console.log(err)
