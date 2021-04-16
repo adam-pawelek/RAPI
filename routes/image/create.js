@@ -10,19 +10,40 @@ module.exports = [
     method: 'POST',
     path: '/image',
     options: {
-      auth: false
+      auth: {
+        strategy: 'jwt_strategy',
+        mode: 'try'
+      }
     },
     handler: async function (request, h) {
 
-      //let user = request.auth.credentials.user
+      console.log("isAuthenticated: " + request.auth.isAuthenticated);
+      //console.log("isAuthorized: " + request.auth.isAuthorized)
+      //console.log("error: " + request.auth.error)
 
-      return Image.create({
-        // Storing with date as filename is bad and can cause collisions
-        filename: `image-${new Date().toDateString()}`,
-        //username: user.name,
-        //status: true,
-        //userId: user.id
-      })
+
+
+      if(request.auth.isAuthenticated === true){
+        console.log("Logged in user")
+        // let user = request.auth.credentials.user
+        return "Hello"
+
+        // return await Image.create({
+        //
+        //   filename: `image-${new Date().toDateString()}`,
+        //   username: user.name,
+        //   userId: user.id
+        // })
+      }else{
+        console.log("Not logged in")
+
+        return await Image.create({
+          filename: `image-${new Date().toDateString()}`,
+
+        })
+      }
+
+
     }
   },
   {
