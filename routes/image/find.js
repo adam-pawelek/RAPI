@@ -8,6 +8,7 @@ module.exports = [
     method: 'GET',
     path: '/image', // '/image?all=true',
     options: {
+      auth: false,
       validate: {
         query: Joi.object({
           limit: Joi.number().integer().min(1).max(100).default(10),
