@@ -10,7 +10,7 @@ module.exports = function (database) {
     comment: {
       type: Sequelize.TEXT
     },
-    image_id: {
+    imageId: {
       type: Sequelize.UUID
     }
   })
