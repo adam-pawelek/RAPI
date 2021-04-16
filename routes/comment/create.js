@@ -4,11 +4,18 @@ module.exports = [
   {
     method: 'POST',
     path: '/image/{image_id}/comment',
-    handler: function (request, h) {
-
-      return Comment.create({
+    handler: async function (request, h) {
+      const comment = await Comment.create({
         comment: request.payload.comment,
-        image_id: request.params.image_id
+        imageId: request.params.image_id
+      })
+
+      console.log('commentID: ', comment.id)
+      return Comment.findOne({
+        attributes: ['id', 'imageId', 'comment'],
+        where: {
+          imageId: comment.imageId
+        }
       })
     }
   },
@@ -16,11 +23,13 @@ module.exports = [
     method: 'GET',
     path: '/comments',
     handler: async function (request, h) {
-      comments = await Comment.findAll();
-      return comments.map (comment => (
-        {
-          ...comment.toJSON()
-        }))
+      const comments = await Comment.findAll()
+      return comments.map(cmt => (
+          {
+            ...cmt.toJSON()
+          }
+        )
+      )
     }
   }
 ]
