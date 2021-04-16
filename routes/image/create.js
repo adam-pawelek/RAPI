@@ -9,9 +9,12 @@ module.exports = [
   {
     method: 'POST',
     path: '/image',
+    options: {
+      auth: false
+    },
     handler: async function (request, h) {
 
-      let user = request.auth.credentials.user
+      //let user = request.auth.credentials.user
 
       return Image.create({
         // Storing with date as filename is bad and can cause collisions
