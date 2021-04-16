@@ -11,11 +11,13 @@ module.exports = function (database) {
       type: Sequelize.TEXT
     },
     username: {
-      type: Sequelize.TEXT
+      type: Sequelize.TEXT,
+      defaultValue: 'anonymous'
     },
     // Can be private (false) or public (true) for later
     status: {
-      type: Sequelize.BOOLEAN
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
     }
   })
 }
