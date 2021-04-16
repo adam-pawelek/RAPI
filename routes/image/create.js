@@ -17,15 +17,10 @@ module.exports = [
     },
     handler: async function (request, h) {
 
-      console.log("isAuthenticated: " + request.auth.isAuthenticated);
-      //console.log("isAuthorized: " + request.auth.isAuthorized)
-      //console.log("error: " + request.auth.error)
-
-
-
       if(request.auth.isAuthenticated === true){
         console.log("Logged in user")
         const user = request.auth.credentials.user
+        console.log(user.id)
 
         return await Image.create({
           filename: `image-${new Date().toDateString()}`,
@@ -37,7 +32,6 @@ module.exports = [
 
         return await Image.create({
           filename: `image-${new Date().toDateString()}`,
-
         })
       }
     }
