@@ -25,15 +25,13 @@ module.exports = [
 
       if(request.auth.isAuthenticated === true){
         console.log("Logged in user")
-        // let user = request.auth.credentials.user
-        return "Hello"
+        const user = request.auth.credentials.user
 
-        // return await Image.create({
-        //
-        //   filename: `image-${new Date().toDateString()}`,
-        //   username: user.name,
-        //   userId: user.id
-        // })
+        return await Image.create({
+          filename: `image-${new Date().toDateString()}`,
+          username: user.name,
+          //userId: user.id
+        })
       }else{
         console.log("Not logged in")
 
@@ -42,8 +40,6 @@ module.exports = [
 
         })
       }
-
-
     }
   },
   {
