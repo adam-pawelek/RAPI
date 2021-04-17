@@ -22,10 +22,15 @@ module.exports = [
       if (request.query.all === false) { // Find images in database with limit and pagination
         images = await Image.findAll({
           offset: (request.query.page - 1) * request.query.limit,
-          limit: request.query.limit
+          limit: request.query.limit,
+          where: {status: true}
         })
       } else { // Get all images from database
-        images = await Image.findAll()
+        images = await Image.findAll({
+          where: {
+            status: true
+          }
+        })
       }
 
       // Map through results and
