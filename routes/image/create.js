@@ -17,7 +17,7 @@ module.exports = [
         // Storing with date as filename is bad and can cause collisions
         filename: `image-${new Date().toDateString()}`,
         username: user.name,
-        status: true,
+        status: false,
         userId: user.id
       })
     }
