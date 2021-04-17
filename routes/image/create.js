@@ -25,6 +25,8 @@ module.exports = [
         return await Image.create({
           filename: `image-${new Date().toDateString()}`,
           username: user.name,
+          //comment the next line in, if the image should be private
+          //status: false,
           userId: user.id
         })
       }else{
