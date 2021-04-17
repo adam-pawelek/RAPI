@@ -25,7 +25,7 @@ module.exports = [
         return await Image.create({
           filename: `image-${new Date().toDateString()}`,
           username: user.name,
-          //userId: user.id
+          userId: user.id
         })
       }else{
         console.log("Not logged in")

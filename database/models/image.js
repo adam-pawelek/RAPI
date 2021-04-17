@@ -18,9 +18,6 @@ module.exports = function (database) {
     status: {
       type: Sequelize.BOOLEAN,
       defaultValue: true
-    },
-     // userId: {
-     //   type: Sequelize.UUID
-     // }
+    }
   })
 }

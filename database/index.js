@@ -19,7 +19,7 @@ const Notice = NoticeModel(sequelize)
 const User = UserModel(sequelize)
 
 // Create associations for foreign keys
-Image.belongsTo(User, { allowNull: true })
+Image.belongsTo(User)
 User.hasMany(Image)
 
 // User might have many favorite images
