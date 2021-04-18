@@ -28,7 +28,12 @@ module.exports = [
                     }
                 })
 
+                if(favorites.length  === 0)
+                {
+                    return {msg: 'You do not have any favorites on your list ', favorites}
+                }
                 return {msg: 'Here are all your favorite images '+user.name, favorites}
+
             } catch (error) {
                 return h.response(' Error ' + error.message).code(500)
             }

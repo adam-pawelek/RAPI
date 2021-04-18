@@ -2,6 +2,10 @@ const Config = require("../../config")
 const jwt = require('jsonwebtoken')
 const {Favorite} = require("../../database")
 const Joi = require('joi')
+const { Image } = require('../../database')
+
+const Boom = require('@hapi/boom')
+
 
 module.exports = [
     {
@@ -17,40 +21,55 @@ module.exports = [
                 })
             }
         },
-        handler: async function (request, h) {
-            try {
-                let imageId =  request.params.id;
+        handler: async function (request) {
+            let imageId =  request.params.id;
+            let message = '';
 
-                let userToken = await request.headers
-                const token = userToken.authorization.split(' ')
-                const decoded = jwt.verify(token[1], Config.jwt_secret)
+            let userToken = await request.headers
+            const token = userToken.authorization.split(' ')
+            const decoded = jwt.verify(token[1], Config.jwt_secret)
 
-                let user = decoded.user
-    // todo: check if it already exists in favs for this user
-                // plus: if image exists add all
-                console.log("imageid  "+imageId);
-                console.log("user id "+user.id);
+            let user = decoded.user
 
-                // // check if image exists
-                // const image = await Image.findOne({
-                //     where: {
-                //         id: imageId
-                //     }
-                // }).then((result)=>{
-                //     if(result.empty){
-                //         console.log('Error Image does not exist');
-                //     }
-                // })
-
-                const favorite = await Favorite.create({
-                    imageId: imageId,
-                    userId: user.id
-                })
-
-                return  {msg: 'Success! The following image was added to you favorites.', favorite}
-            } catch (error) {
-                return h.response(' Error: ' + error.message).code(error.code)
+            // check if image exists
+            let image = await Image.findOne({where : {id: imageId}});
+            if(!image)
+            {
+                let error = new Error('Image does not exists');
+                throw Boom.boomify(error, { statusCode: 404});
             }
+
+            // check if image is already favorite of this user
+            await    Favorite.findOne({
+            where: {
+                imageId: imageId,
+                userId: user.id
+            }
+            }).then(
+                value => {
+                    if(value!=null)
+                    {
+                        let error = new Error('You already added this image as a favorite, for Image id '+ imageId)
+                        throw Boom.boomify(error, { statusCode: 409})
+                    }
+                }
+            )
+
+            const favorite =
+                await Favorite.create({
+                imageId: imageId,
+                userId: user.id
+            }).then((result)=>{
+                if(result!=null)
+                {
+                    message =  'Success! The following image was added to you favorites.';
+                    return result;
+                } else {
+                    message = 'An error occurred';
+                }
+             })
+
+            return  {msg: message , favorite}
         }
     }
-    ]
+]

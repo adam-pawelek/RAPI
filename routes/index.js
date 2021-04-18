@@ -7,6 +7,7 @@ const reportImageRoutes = require('./image/report')
 
 const createFavoriteRoutes = require('./favorites/create')
 const getFavoritesRoutes = require('./favorites/find')
+const removeFavoritesRoutes = require('./favorites/remove')
 
 const createAndFindCommentRoutes = require('./comment/create')
 const editCommentRoutes = require('./comment/edit')
@@ -29,6 +30,7 @@ module.exports = [
 
   ...createFavoriteRoutes,
   ...getFavoritesRoutes,
+  ...removeFavoritesRoutes,
 
   ...createAndFindCommentRoutes,
   ...editCommentRoutes,
