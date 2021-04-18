@@ -27,7 +27,8 @@ const start = async function () {
         sub: false,
         nbf: false,
         exp: false,
-        maxAgeSec: 14400, // 4 hours
+        //Commented because we are using const variables in POSTMAN
+        //maxAgeSec: 14400, // 4 hours
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
