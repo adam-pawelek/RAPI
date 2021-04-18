@@ -5,6 +5,9 @@ const findImageRoutes = require('./image/find')
 const removeImageRoutes = require('./image/remove')
 const reportImageRoutes = require('./image/report')
 
+const createFavoriteRoutes = require('./favorites/create')
+const getFavoritesRoutes = require('./favorites/find')
+
 const createAndFindCommentRoutes = require('./comment/create')
 const editCommentRoutes = require('./comment/edit')
 const deleteCommentRoutes = require('./comment/remove')
@@ -23,6 +26,9 @@ module.exports = [
   ...findImageRoutes,
   ...removeImageRoutes,
   ...reportImageRoutes,
+
+  ...createFavoriteRoutes,
+  ...getFavoritesRoutes,
 
   ...createAndFindCommentRoutes,
   ...editCommentRoutes,
