@@ -4,6 +4,7 @@ const Config = require('../../config')
 const { Image } = require('../../database')
 const { minioClient } = require('../../utils/minio')
 const jwt = require('jsonwebtoken')
+const Joi = require('joi')
 
 module.exports = [
   {
@@ -12,7 +13,12 @@ module.exports = [
     options: {
       auth: {
         strategy: 'jwt_strategy',
-        mode: 'try'
+        mode: 'try',
+      },
+      validate: {
+        query: Joi.object({
+          isPublic: Joi.bool().default(true)
+        })
       }
     },
     handler: async function (request, h) {
@@ -22,14 +28,14 @@ module.exports = [
         const user = request.auth.credentials.user
         console.log(user.id)
 
+
         return await Image.create({
           filename: `image-${new Date().toDateString()}`,
-          username: user.name,
-          //comment the next line in, if the image should be private
-          //status: false,
+          isAnonymous: false,
+          isPublic: request.query.isPublic,
           userId: user.id
         })
-      }else{
+      } else {
         console.log("Not logged in")
 
         return await Image.create({
