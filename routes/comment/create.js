@@ -40,6 +40,8 @@ module.exports = [
     }
   },
   {
+    // JUST FOR TESTING
+    // SHOULD BE DELETED BEFORE PRODUCTION
     method: 'GET',
     path: '/comments',
     handler: async function (request, h) {
