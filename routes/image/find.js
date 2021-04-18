@@ -5,6 +5,8 @@ const Joi = require('joi')
 
 module.exports = [
   {
+    // SHOWS ONLY PUBLIC IMAGES
+    // To get user's private go to /me/images
     method: 'GET',
     path: '/image', // '/image?all=true',
     options: {
@@ -23,12 +25,12 @@ module.exports = [
         images = await Image.findAll({
           offset: (request.query.page - 1) * request.query.limit,
           limit: request.query.limit,
-          where: {status: true}
+          where: { isPublic: true }
         })
       } else { // Get all images from database
         images = await Image.findAll({
           where: {
-            status: true
+            isPublic: true
           }
         })
       }

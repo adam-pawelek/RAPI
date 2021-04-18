@@ -4,22 +4,44 @@ const Config = require('../../config')
 const { Image } = require('../../database')
 const { minioClient } = require('../../utils/minio')
 const jwt = require('jsonwebtoken')
+const Joi = require('joi')
 
 module.exports = [
   {
     method: 'POST',
     path: '/image',
+    options: {
+      auth: {
+        strategy: 'jwt_strategy',
+        mode: 'try',
+      },
+      validate: {
+        query: Joi.object({
+          isPublic: Joi.bool().default(true)
+        })
+      }
+    },
     handler: async function (request, h) {
 
-      let user = request.auth.credentials.user
+      if(request.auth.isAuthenticated === true){
+        console.log("Logged in user")
+        const user = request.auth.credentials.user
+        console.log(user.id)
 
-      return Image.create({
-        // Storing with date as filename is bad and can cause collisions
-        filename: `image-${new Date().toDateString()}`,
-        username: user.name,
-        status: false,
-        userId: user.id
-      })
+
+        return await Image.create({
+          filename: `image-${new Date().toDateString()}`,
+          isAnonymous: false,
+          isPublic: request.query.isPublic,
+          userId: user.id
+        })
+      } else {
+        console.log("Not logged in")
+
+        return await Image.create({
+          filename: `image-${new Date().toDateString()}`,
+        })
+      }
     }
   },
   {
