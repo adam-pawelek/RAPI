@@ -14,10 +14,6 @@ module.exports = function (database) {
       type: Sequelize.BOOLEAN,
       defaultValue: true
     },
-    // username: {
-    //   type: Sequelize.TEXT,
-    //   defaultValue: 'anonymous'
-    // },
 
     // Can be private (false) or public (true) for later
     isPublic: {
