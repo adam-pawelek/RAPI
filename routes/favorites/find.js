@@ -8,9 +8,11 @@ module.exports = [
     {
         method: 'GET',
             path: '/me/favorites',
-        // options: {
-        //
-        // },
+        options: {
+            auth: {
+                scope: ['admin', 'user']
+            }
+        },
         handler: async function (request, h) {
             try {
                 let userToken = await request.headers

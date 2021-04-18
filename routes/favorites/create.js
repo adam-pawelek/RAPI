@@ -8,6 +8,9 @@ module.exports = [
         method: 'POST',
         path: '/image/{id}/favorite',
         options: {
+            auth: {
+                scope: ['admin', 'user']
+            },
             validate: {
                 query: Joi.object({
                     id: Joi.string().guid({ version: ['uuidv4'] })
