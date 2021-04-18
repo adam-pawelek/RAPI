@@ -26,6 +26,8 @@ User.hasMany(Image)
 
 Comment.belongsTo(Image, { allowNull: false })
 Image.hasMany(Comment)
+User.hasMany(Comment)
+Comment.belongsTo(User, { allowNull: true })
 
 // User might have many favorite images
 // User.hasMany(Image, { as: 'Favorite' })

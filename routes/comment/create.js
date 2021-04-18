@@ -7,14 +7,15 @@ module.exports = [
     handler: async function (request, h) {
       const comment = await Comment.create({
         comment: request.payload.comment,
-        imageId: request.params.image_id
+        imageId: request.params.image_id,
+        userId: request.auth.credentials.user.id
       })
 
       console.log('commentID: ', comment.id)
       return Comment.findOne({
-        attributes: ['id', 'imageId', 'comment'],
+        attributes: ['id', 'imageId', 'comment', 'userId'],
         where: {
-          imageId: comment.imageId
+          id: comment.id
         }
       })
     }
