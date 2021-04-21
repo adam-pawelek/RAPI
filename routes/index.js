@@ -18,7 +18,8 @@ const authRoutes = require('./auth/handler')
 const adminRoutes = require('./user/admin')
 const listUserData = require('./user/me')
 
-const moje = require('./image/upvote')
+const upvote = require('./image/upvote')
+const downvote = require('./image/downvote')
 
 // This must return an array
 module.exports = [
@@ -43,5 +44,6 @@ module.exports = [
   ...adminRoutes,
   ...listUserData,
 
-  ...moje
+  ...upvote,
+  ...downvote
 ]

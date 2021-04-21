@@ -7,10 +7,10 @@ const Joi = require('joi')
 module.exports = [
   {
     method: 'GET',
-    path: '/image/upvote/{id}', // '/image?all=true',
+    path: '/image/downvote/{id}', // '/image?all=true',
 
     options: {
-    //  auth: false
+      //  auth: false
     },
 
 
@@ -22,11 +22,11 @@ module.exports = [
 
       images = await Image.findAll()
 
-      let upvoteMe = null
+      let downvoteMe = null
       const myVote = await Vote.findOne(
         { where: { imageId: id,
-                    userId: userId
-                  }
+            userId: userId
+          }
         }
       )
 
@@ -39,8 +39,8 @@ module.exports = [
             { where: { id: id } }
           )
 
-          upvoteMe = await Image.update(
-            { count: myJson.count + 1 },
+          downvoteMe = await Image.update(
+            { count: myJson.count - 1 },
             { where: { id: id } }
           )
           //  upvoteMe.count = 1
@@ -49,10 +49,26 @@ module.exports = [
             // Storing with date as filename is bad and can cause collisions
             imageId: id,
             userId: userId,
-            count: 1
+            count: -1
           })
+        }
+        else if (myVote.count > -1){
+          const myJson = await Image.findOne(
+            { where: { id: id } }
+          )
+
+          downvoteMe = await Image.update(
+            { count: myJson.count - 1 },
+            { where: { id: id } }
+          )
+          downvoteCount = await Vote.update(
+            { count: myVote.count - 1 },
+            { where: { imageId: id,
+                userId: userId} }
+          )
 
         }
+
       }catch (error) {
         console.error(error);
         // expected output: ReferenceError: nonExistentFunction is not defined
