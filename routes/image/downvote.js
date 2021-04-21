@@ -6,7 +6,7 @@ const Joi = require('joi')
 
 module.exports = [
   {
-    method: 'GET',
+    method: 'PUT',
     path: '/image/downvote/{id}', // '/image?all=true',
 
     options: {
@@ -35,12 +35,12 @@ module.exports = [
 
         if (myVote === null) {
 
-          const myJson = await Image.findOne(
+          const voteJson = await Image.findOne(
             { where: { id: id } }
           )
 
           downvoteMe = await Image.update(
-            { count: myJson.count - 1 },
+            { count: voteJson.count - 1 },
             { where: { id: id } }
           )
           //  upvoteMe.count = 1
