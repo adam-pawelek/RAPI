@@ -6,6 +6,7 @@ module.exports = {
   database_pass: process.env.DB_PASS || 'monkey_pass',
   database_db: process.env.DB_DB || 'monkey_db',
   bucketname: process.env.BUCKET || 'imager',
-  github_secret: 'ssshh'
+  //Github requires a 32 character long secret, so this is a random generated secret to meet the requirement
+  github_secret: 'UwtWxrAszEB32RrQJ52byASWVxfxq9sP'
 }
 
