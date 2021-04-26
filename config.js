@@ -5,6 +5,7 @@ module.exports = {
   database_user:  process.env.DB_USER || 'monkey_user', // Todo: Why did he delete the credentials? should we too?
   database_pass: process.env.DB_PASS || 'monkey_pass',
   database_db: process.env.DB_DB || 'monkey_db',
-  bucketname: process.env.BUCKET || 'imager'
+  bucketname: process.env.BUCKET || 'imager',
+  github_secret: 'ssshh'
 }
 

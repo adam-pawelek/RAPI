@@ -58,5 +58,27 @@ module.exports = [
         return h.response().code(401)
       }
     }
+  },
+  {
+    method: 'GET',
+    path: '/auth/github',
+    options: {
+      auth: 'github',
+    },
+    handler: function (request, h) {
+      try {
+        if (request.auth.isAuthenticated) {
+          const user = request.auth.credentials.profile
+          const data = {
+            name: user.displayName,
+            username: user.username
+          }
+
+          return h.view('authenticated', data)
+        }
+      } catch (e) {
+          return h.view(e)
+      }
+    }
   }
 ]
