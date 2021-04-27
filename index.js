@@ -3,6 +3,7 @@ const Config = require('./config')
 
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
+const Bell = require('@hapi/bell')
 
 const Routes = require('./routes')
 
@@ -12,13 +13,13 @@ const server = Hapi.server({
   port: 8000
 })
 
-
-
 // Wrapper function for the server start
 const start = async function () {
   try {
-    // Define a authentication strategy
-    await server.register(Jwt)
+    // Register plugins to server
+    await server.register([Jwt, Bell])
+
+    // Define a authentication strategies
     server.auth.strategy('jwt_strategy', 'jwt', {
       keys: Config.jwt_secret,
       verify: {
@@ -32,7 +33,6 @@ const start = async function () {
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
-        //const {scope} = await User.findByPk(artifacts.decoded.payload.user.id)
         return {
           isValid: true,
           credentials: {
@@ -44,6 +44,14 @@ const start = async function () {
           }
         }
       }
+    }),
+
+    server.auth.strategy('github', 'bell', {
+      provider: 'github',
+      password: Config.github_secret,
+      isSecure: false,
+      clientId: '27aa3e25083c81cf10bb',
+      clientSecret: 'f70ab436c2a6abc808d09960cb8273e322f9419b'
     })
 
     // Set the default auth strategy
