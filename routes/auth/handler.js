@@ -50,6 +50,9 @@ module.exports = [
             },
             scope: [user.scope]
           }, config.jwt_secret)
+
+
+
           return { msg: 'Success', token }
         }
 
@@ -79,6 +82,13 @@ module.exports = [
       } catch (e) {
           return h.view(e)
       }
+    }
+  },
+  {
+    method: 'GET',
+    path: '/auth/logout',
+    handler: function (request, h) {
+
     }
   }
 ]
