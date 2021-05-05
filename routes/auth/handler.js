@@ -48,7 +48,8 @@ module.exports = [
               id: user.id,
               name: user.username
             },
-            scope: [user.scope]
+            scope: [user.scope],
+            jwtid: await this.getJwtId()
           }, config.jwt_secret)
 
 
