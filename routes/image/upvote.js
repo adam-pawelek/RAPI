@@ -7,7 +7,7 @@ const Joi = require('joi')
 module.exports = [
   {
     method: 'PUT',
-    path: '/image/upvote/{id}', // '/image?all=true',
+    path: '/image/{id}/upvote', // '/image?all=true',
 
     options: {
     //  auth: false
