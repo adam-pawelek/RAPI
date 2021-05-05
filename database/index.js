@@ -5,6 +5,7 @@ const NoticeModel = require('./models/notice')
 const UserModel = require('./models/user')
 const FavoriteModel = require('./models/favorite')
 const CommentModel = require('./models/comment')
+const VoteModel = require('./models/vote')
 const config = require('../config')
 
 const sequelize = new Sequelize({
@@ -21,6 +22,7 @@ const Notice = NoticeModel(sequelize)
 const User = UserModel(sequelize)
 const Favorite = FavoriteModel(sequelize)
 const Comment = CommentModel(sequelize)
+const Vote = VoteModel(sequelize)
 
 // Create associations for foreign keys
 Image.belongsTo(User)
@@ -42,5 +44,6 @@ module.exports = {
   Notice,
   User,
   Favorite,
-  Comment
+  Comment,
+  Vote
 }

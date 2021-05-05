@@ -61,7 +61,7 @@ const start = async function () {
     server.route(Routes)
 
     await server.start()
-    await sequelize.sync({ force: false }) // force: true = recreates the database on each startup
+    await sequelize.sync({ force: true }) // force: true = recreates the database on each startup
     console.log('Connection has been established successfully.')
   } catch (err) {
     console.log(err)

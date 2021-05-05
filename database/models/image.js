@@ -19,6 +19,10 @@ module.exports = function (database) {
     isPublic: {
       type: Sequelize.BOOLEAN,
       defaultValue: true
+    },
+
+    count: {
+      type: Sequelize.INTEGER
     }
   })
 }

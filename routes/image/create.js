@@ -33,7 +33,8 @@ module.exports = [
           filename: `image-${new Date().toDateString()}`,
           isAnonymous: false,
           isPublic: request.query.isPublic,
-          userId: user.id
+          userId: user.id,
+          count: 0
         })
       } else {
         console.log("Not logged in")
