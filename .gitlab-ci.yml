@@ -1,3 +1,7 @@
+stages:
+  - build
+  - test
+
 build:
   stage: build
   image:
@@ -9,3 +13,40 @@ build:
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
   tags:
     - general
+
+
+
+justtryubuntu:
+  stage: test
+  #image: ubuntu-latest
+  image:
+    name: postman/newman_ubuntu1404
+    entrypoint: [""]
+  before_script:
+    - apt-get update && apt-get install -y docker.io
+    - docker version
+  script:
+    - echo "hello"
+    - docker --version
+  tags:
+    - general
+
+#postman_tests:
+#  stage: test
+#  image:
+#    name: postman/newman:alpine
+#    entrypoint: [""]
+#  script:
+#    - newman --version
+#    - echo "$CI_JOB_STAGE"
+#    - npm install -g newman-reporter-html
+#    - docker --version
+#   # - docker run -d --name restapi -p 8000:8000 $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+#    - node index.js
+#    - newman run TestCI.postman_collection.json --reporters cli,html --reporter-html-export report.html
+#  artifacts:
+#    when: always
+#    paths:
+#      - report.html
+#  tags:
+#    - general

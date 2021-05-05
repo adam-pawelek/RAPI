@@ -1,0 +1,1268 @@
+{
+	"info": {
+		"_postman_id": "95dbe3ac-2569-4058-b7c9-1408b4b8ed75",
+		"name": "ServiceOrientedApplications",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login & register",
+			"item": [
+				{
+					"name": "register user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    // pm.expect(pm.response.code).to.equal(404);",
+									"    //  pm.response.to.be.ok;",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"",
+									"// set env variables for comming tests",
+									"if (pm.response.to.have.status(200)) {",
+									"    //  pm.environment.set(\"username\", pm.response.json().username);",
+									"    let req = JSON.parse(pm.request.body.raw);",
+									"    pm.environment.set(\"username\", req.username);",
+									"    pm.environment.set(\"password\", req.password);",
+									"   // pm.collectionVariables.set(\"username\", req.username);",
+									"   // pm.collectionVariables.set(\"password\", req.password);",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"user11111\", \"password\": \"password1234\", \"scope\": \"user\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/auth/register",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"admin\", \"password\": \"admin_password\", \"scope\": \"admin\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/auth/register",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"const updatedBody = {",
+									"        \"username\": pm.environment.get(\"username\"),",
+									"        \"password\": pm.environment.get(\"password\")",
+									"    }",
+									"",
+									"pm.test(\"can login with fresh registered user\", () => {",
+									"    pm.sendRequest({",
+									"        url: 'http://0.0.0.0:8000/auth/login',",
+									"        method: 'POST',",
+									"        body: {",
+									"            mode: \"raw\",",
+									"            raw: updatedBody,",
+									"            options: {",
+									"                    raw: {",
+									"                    language: \"json\"",
+									"                            }",
+									"                    }",
+									"        }",
+									"    }, function (err, res) {",
+									"        pm.expect(res).to.have.property('code', 200);",
+									"          if (pm.response.to.have.status(200)) {",
+									"           let resBody = JSON.parse(new Buffer.from(res.stream).toString());",
+									"           pm.collectionVariables.set(\"TOKEN-USER1\", \"Bearer \"+resBody.token); ",
+									"           //console.log(pm.collectionVariables.get(\"TOKEN-USER1\"));",
+									"        }",
+									"    }) ",
+									"",
+									"  ",
+									"});",
+									"",
+									"",
+									"const failBody = {",
+									"        \"username\": \"notregistered\",",
+									"        \"password\": \"do not exist\"",
+									"    }",
+									"",
+									"pm.test(\"can login with fresh registered user\", () => {",
+									"    pm.sendRequest({",
+									"        url: 'http://0.0.0.0:8000/auth/login',",
+									"        method: 'POST',",
+									"        body: {",
+									"            mode: \"raw\",",
+									"            raw: failBody,",
+									"            options: {",
+									"                    raw: {",
+									"                    language: \"json\"",
+									"                            }",
+									"                    }",
+									"        }",
+									"    }, function (err, res) {",
+									"        pm.expect(res).to.have.property('code', 401);",
+									"    }) ",
+									"});",
+									"*/",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"{{username}}\", \"password\": \"{{password}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/auth/login",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"admin\", \"password\": \"admin_password\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/auth/login",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login GitHub",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:8000/auth/github",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"github"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "csc",
+			"item": [
+				{
+					"name": "csc login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"newUser\", \"password\": \"test_password\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.imager.local/auth/login",
+							"protocol": "http",
+							"host": [
+								"api",
+								"imager",
+								"local"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "csc register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\": \"newUser\", \"password\": \"test_password\", \"role\": \"user\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://api.imager.local/auth/register",
+							"protocol": "http",
+							"host": [
+								"api",
+								"imager",
+								"local"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "csc ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://api.imager.local/ping",
+							"protocol": "http",
+							"host": [
+								"api",
+								"imager",
+								"local"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "image",
+			"item": [
+				{
+					"name": "get image minio",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/minio",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"minio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image db",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image?limit=10&page=1",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post image minio",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"imagedata\" :\n    \"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\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/minio",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"minio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post image db",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete image",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/d37d122f-b9d9-4a36-81c7-d21f0b5f147e",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"d37d122f-b9d9-4a36-81c7-d21f0b5f147e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report an image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/29fd0e00-5369-4bd5-b6ca-24db6fe106b0/report",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"29fd0e00-5369-4bd5-b6ca-24db6fe106b0",
+								"report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upvote",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/downvote/43ce4cd8-d7ba-46b1-9d6a-ced028a1b31d",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"downvote",
+								"43ce4cd8-d7ba-46b1-9d6a-ced028a1b31d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downvote",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiMWQ1ZTQ5YzEtNjQxZC00MTI0LWI2ZjEtYjliNGY0NTk4ZTI2IiwibmFtZSI6ImFkbWluIn0sInNjb3BlIjpbImFkbWluIl0sImlhdCI6MTYyMDIwNDE4Nn0.S_bUZ6LOYokOgvOz6MQvRl_iCxnmEZpIKHTAf7aCKj0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/27e13a3a-fb4f-492d-9d5a-9f78976563b4/downvote",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"27e13a3a-fb4f-492d-9d5a-9f78976563b4",
+								"downvote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trending",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "me",
+			"item": [
+				{
+					"name": "get me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"description": "Use this if you want to be an admin",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/me",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all images from me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/me",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "list all notice",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/admin/notice",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"notice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/admin/user",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorite",
+			"item": [
+				{
+					"name": "create/add favorite",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/:id/favorite",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								":id",
+								"favorite"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "b3aee816-ef7e-498c-858e-a4d1f3597949"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "my favorites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"*/"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/me/favorites",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"me",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove from favorites",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/:id/favorite",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								":id",
+								"favorite"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "f41871e1-b434-43b5-a663-eda41e23a61e"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "get all comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/comments",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"test comment just to check if it works\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/image/48a0aa34-6626-44ff-a10c-7ea9236caf0d/comment",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"image",
+								"48a0aa34-6626-44ff-a10c-7ea9236caf0d",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\": \"CHANGED COMMENT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/comment/fe882de1-4b9a-4ecb-823a-3c044218cf09",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"comment",
+								"fe882de1-4b9a-4ecb-823a-3c044218cf09"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{ADMIN}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER2}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/comment/",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8000/ping",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8000",
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TOKEN-USER1",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYmUzYjFhZjMtMTM1Ny00YTk0LWI1YjktNzE3NzkwZTc3OWQ1IiwibmFtZSI6InVzZXIxIn0sInNjb3BlIjpbInVzZXIiXSwiaWF0IjoxNjE4NzcwMzA4fQ.RVUU3i-8xg9cvyLmcgUWdzG8sEPT3hLAC4rcQJBpnhs"
+		},
+		{
+			"key": "TOKEN-USER2",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiOTA0NDRjMDYtN2ViZC00MWFjLWJiYTItNWVkM2FkMTVmZDczIiwibmFtZSI6InVzZXIyIn0sInNjb3BlIjpbInVzZXIiXSwiaWF0IjoxNjE4NzcwMzMxfQ.wuIBRZGFsq1jufIagnYxAq5G2SJT4-zw5eHhjh5pROM"
+		},
+		{
+			"key": "ADMIN",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiYjdkOWYwM2UtNGRkZC00OGE3LWJkMWMtYmQ2MTA1NzM2YmE5IiwibmFtZSI6ImFkbWluIn0sInNjb3BlIjpbImFkbWluIl0sImlhdCI6MTYxODc3MDI4NH0.hGo_rE-lR3VC3DMbkZw5jYwyiT67ewISo0pWoYsxTSg"
+		}
+	]
+}
