@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const config = require('../../config')
 const { User } = require('../../database')
+const { JWT } = require('../../utils/jwt')
 
 module.exports = [
   {
@@ -49,12 +50,17 @@ module.exports = [
               name: user.username
             },
             scope: [user.scope],
-            jwtid: await this.getJwtId()
           }, config.jwt_secret)
 
+          const token2 = JWT.create({
+            user: {
+              id: user.id,
+              name: user.username
+            },
+            scope: [user.scope]
+          })
 
-
-          return { msg: 'Success', token }
+          return { msg: 'Success', token2 }
         }
 
         return { msg: 'Fail' }
