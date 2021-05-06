@@ -14,4 +14,5 @@ class Redis {
    return this.client
   }
 }
+
 module.exports = new Redis()
