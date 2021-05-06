@@ -75,21 +75,25 @@ module.exports = [
             name: user.displayName,
             username: user.username
           }
-
-          return h.view('authenticated', data)
+          return h.response('authenticated', data)
         }
       } catch (e) {
-          return h.view(e)
+          return h.response(e)
       }
     }
   },
   {
-    method: 'GET',
+    method: 'POST',
     path: '/auth/logout',
-    handler: function (request, h) {
-      console.log(request.auth.token)
-      console.log(request.artifacts.token)
-      redisClient.set(request.auth.token,'logged-out')
+    handler: async function (request, h) {
+      let authBearer = request.headers.authorization.split(' ')
+      let authToken = authBearer[1]
+      try{
+        await redisClient.set(authToken,'logged-out')
+        return h.response('You are now logged out')
+      }catch (e) {
+        return h.response(e)
+      }
     }
   }
 ]
