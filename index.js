@@ -34,10 +34,12 @@ const start = async function () {
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
-        let value = await redisClient.get(artifacts.token)
-        console.log(value)
+        let authBearer = request.headers.authorization.split(' ')
+        let authToken = authBearer[1]
+
+        let value = await redisClient.get(authToken)
         if(value === 'logged-out'){
-          return h.response('You were signed out').code(401)
+          return {isValid: false}
         }
 
         return {
@@ -68,7 +70,7 @@ const start = async function () {
     server.route(Routes)
 
     await server.start()
-    await sequelize.sync({ force: true }) // force: true = recreates the database on each startup
+    await sequelize.sync({ force: false }) // force: true = recreates the database on each startup
     console.log('Connection has been established successfully.')
   } catch (err) {
     console.log(err)

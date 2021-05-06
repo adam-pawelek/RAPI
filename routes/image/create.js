@@ -3,7 +3,6 @@ const uuid = require('uuid')
 const Config = require('../../config')
 const { Image } = require('../../database')
 const { minioClient } = require('../../utils/minio')
-const jwt = require('jsonwebtoken')
 const Joi = require('joi')
 
 module.exports = [
@@ -26,9 +25,7 @@ module.exports = [
       if(request.auth.isAuthenticated === true){
         console.log("Logged in user")
         const user = request.auth.credentials.user
-        //const user = request.user
         console.log(user.id)
-
 
         return await Image.create({
           filename: `image-${new Date().toDateString()}`,
