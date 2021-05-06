@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
 const config = require('../../config')
 const { User } = require('../../database')
-const { JWT } = require('../../utils/jwt')
+
+const { redisClient } = require('../../utils/redis')
 
 module.exports = [
   {
@@ -52,18 +52,10 @@ module.exports = [
             scope: [user.scope],
           }, config.jwt_secret)
 
-          const token2 = JWT.create({
-            user: {
-              id: user.id,
-              name: user.username
-            },
-            scope: [user.scope]
-          })
-
-          return { msg: 'Success', token2 }
+          return { msg: 'Success', token }
         }
 
-        return { msg: 'Fail' }
+        return { msg: 'Username and password do not match'}
       } catch (err) {
         return h.response().code(401)
       }
@@ -95,7 +87,9 @@ module.exports = [
     method: 'GET',
     path: '/auth/logout',
     handler: function (request, h) {
-
+      console.log(request.auth.token)
+      console.log(request.artifacts.token)
+      redisClient.set(request.auth.token,'logged-out')
     }
   }
 ]
