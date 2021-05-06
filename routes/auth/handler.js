@@ -1,8 +1,9 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
 const config = require('../../config')
 const { User } = require('../../database')
+
+const { redisClient } = require('../../utils/redis')
 
 module.exports = [
   {
@@ -48,12 +49,13 @@ module.exports = [
               id: user.id,
               name: user.username
             },
-            scope: [user.scope]
+            scope: [user.scope],
           }, config.jwt_secret)
+
           return { msg: 'Success', token }
         }
 
-        return { msg: 'Fail' }
+        return { msg: 'Username and password do not match'}
       } catch (err) {
         return h.response().code(401)
       }
@@ -73,11 +75,24 @@ module.exports = [
             name: user.displayName,
             username: user.username
           }
-
-          return h.view('authenticated', data)
+          return h.response('authenticated', data)
         }
       } catch (e) {
-          return h.view(e)
+          return h.response(e)
+      }
+    }
+  },
+  {
+    method: 'POST',
+    path: '/auth/logout',
+    handler: async function (request, h) {
+      let authBearer = request.headers.authorization.split(' ')
+      let authToken = authBearer[1]
+      try{
+        await redisClient.set(authToken,'logged-out')
+        return h.response('You are now logged out')
+      }catch (e) {
+        return h.response(e)
       }
     }
   }

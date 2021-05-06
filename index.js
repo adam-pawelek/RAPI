@@ -4,7 +4,8 @@ const Config = require('./config')
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
 const Bell = require('@hapi/bell')
-
+const ReqUser = require('hapi-request-user')
+const { redisClient } = require('./utils/redis')
 const Routes = require('./routes')
 
 // Create a server with a host and port
@@ -17,7 +18,7 @@ const server = Hapi.server({
 const start = async function () {
   try {
     // Register plugins to server
-    await server.register([Jwt, Bell])
+    await server.register([Jwt, Bell, ReqUser])
 
     // Define a authentication strategies
     server.auth.strategy('jwt_strategy', 'jwt', {
@@ -33,6 +34,14 @@ const start = async function () {
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
+        let authBearer = request.headers.authorization.split(' ')
+        let authToken = authBearer[1]
+
+        let value = await redisClient.get(authToken)
+        if(value === 'logged-out'){
+          return {isValid: false}
+        }
+
         return {
           isValid: true,
           credentials: {
@@ -61,7 +70,7 @@ const start = async function () {
     server.route(Routes)
 
     await server.start()
-    await sequelize.sync({ force: true }) // force: true = recreates the database on each startup
+    await sequelize.sync({ force: false }) // force: true = recreates the database on each startup
     console.log('Connection has been established successfully.')
   } catch (err) {
     console.log(err)
