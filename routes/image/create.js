@@ -26,6 +26,7 @@ module.exports = [
       if(request.auth.isAuthenticated === true){
         console.log("Logged in user")
         const user = request.auth.credentials.user
+        //const user = request.user
         console.log(user.id)
 
 
