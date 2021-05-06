@@ -4,6 +4,7 @@ const Config = require('./config')
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
 const Bell = require('@hapi/bell')
+const ReqUser = require('hapi-request-user')
 
 const Routes = require('./routes')
 
@@ -17,7 +18,7 @@ const server = Hapi.server({
 const start = async function () {
   try {
     // Register plugins to server
-    await server.register([Jwt, Bell])
+    await server.register([Jwt, Bell, ReqUser])
 
     // Define a authentication strategies
     server.auth.strategy('jwt_strategy', 'jwt', {
