@@ -5,7 +5,7 @@ const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
 const Bell = require('@hapi/bell')
 const ReqUser = require('hapi-request-user')
-
+const { redisClient } = require('./utils/redis')
 const Routes = require('./routes')
 
 // Create a server with a host and port
@@ -34,6 +34,12 @@ const start = async function () {
         timeSkewSec: 15
       },
       validate: async (artifacts, request, h) => {
+        let value = await redisClient.get(artifacts.token)
+        console.log(value)
+        if(value === 'logged-out'){
+          return h.response('You were signed out').code(401)
+        }
+
         return {
           isValid: true,
           credentials: {
