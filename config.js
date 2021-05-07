@@ -11,7 +11,8 @@ module.exports = {
   minio_endpoint: process.env.MINIO_ENDPOINT || 'minio.imager.local',
   minio_port: process.env.MINIO_PORT || 80,
   minio_useSSL: process.env.MINIO_SSL || false,
-  graylog_host: process.env.GRAYLOG_ENDPOINT || 'graylog.imager.local',
+  // graylog_host: process.env.GRAYLOG_ENDPOINT || 'graylog.imager.local',
+  graylog_host: '195.148.22.201',
   graylog_port: 12201,
   //Github requires a 32 character long secret, so this is a random generated secret to meet the requirement
   github_secret: 'UwtWxrAszEB32RrQJ52byASWVxfxq9sP',
