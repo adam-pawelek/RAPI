@@ -50,6 +50,7 @@ const start = async function () {
 
         let value = await redisClient.get(authToken)
         if(value === 'logged-out'){
+          request.log('info',)
           return {isValid: false}
         }
 
@@ -89,7 +90,7 @@ const start = async function () {
   }
 
   console.log('Server running at:', server.info.uri)
-  server.log(['info'], 'Server running at' + server.info.uri)
+  server.log('info', {server_message: 'Server running at' + server.info.uri})
 }
 
 start()
