@@ -4,12 +4,11 @@ const config = require('../config')
 // Create our client to connect to minio / S3
 // https://docs.min.io/docs/javascript-client-api-reference.html
 const minioClient = new Minio.Client({
-  // TODO: Maybe move these to config?
-  endPoint: 'minio.imager.local',
-  port: 80,
-  useSSL: false,
-  accessKey: 'minio',
-  secretKey: 'minio123'
+  endPoint: config.minio_endpoint,
+  port: parseInt(config.minio_port, 10),
+  useSSL: config.minio_useSSL==='true'?true:false,
+  accessKey: config.minio_accesskey,
+  secretKey: config.minio_password
 })
 
 // Just constant for easier access to bucketname
