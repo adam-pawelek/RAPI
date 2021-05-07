@@ -6,6 +6,46 @@
 	},
 	"item": [
 		{
+			"name": "Ping",
+			"item": [
+				{
+					"name": "ping",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:8000/ping",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "login & register",
 			"item": [
 				{
@@ -32,6 +72,17 @@
 									"   // pm.collectionVariables.set(\"username\", req.username);",
 									"   // pm.collectionVariables.set(\"password\", req.password);",
 									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//postman.setNextRequest('get image minio')",
+									"postman.setNextRequest('login user')",
 									""
 								],
 								"type": "text/javascript"
@@ -177,7 +228,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									""
+									"postman.setNextRequest('get image minio')"
 								],
 								"type": "text/javascript"
 							}
@@ -263,6 +314,35 @@
 							"path": [
 								"auth",
 								"github"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://0.0.0.0:8000/auth/logout",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"logout"
 							]
 						}
 					},
@@ -360,6 +440,28 @@
 			"item": [
 				{
 					"name": "get image minio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"postman.setNextRequest('post image db')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -501,6 +603,17 @@
 				},
 				{
 					"name": "post image db",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"postman.setNextRequest('all images from me')"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -626,9 +739,15 @@
 					"name": "upvote",
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TOKEN-USER1}}",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "http://0.0.0.0:8000/image/downvote/43ce4cd8-d7ba-46b1-9d6a-ced028a1b31d",
+							"raw": "http://0.0.0.0:8000/image/27e13a3a-fb4f-492d-9d5a-9f78976563b4/downvote",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -639,8 +758,8 @@
 							"port": "8000",
 							"path": [
 								"image",
-								"downvote",
-								"43ce4cd8-d7ba-46b1-9d6a-ced028a1b31d"
+								"27e13a3a-fb4f-492d-9d5a-9f78976563b4",
+								"downvote"
 							]
 						}
 					},
@@ -1207,28 +1326,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "ping",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://0.0.0.0:8000/ping",
-					"protocol": "http",
-					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
-					],
-					"port": "8000",
-					"path": [
-						"ping"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
