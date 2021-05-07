@@ -7,7 +7,7 @@ const Jwt = require('@hapi/jwt')
 const Bell = require('@hapi/bell')
 const ReqUser = require('hapi-request-user')
 const { redisClient } = require('./utils/redis')
-const Graylog = require('hapi-graylog')
+const GraylogPro = require('hapi-graylog-pro')
 
 
 // Create a server with a host and port
@@ -20,24 +20,16 @@ const server = Hapi.server({
 const start = async function () {
   try {
     // Register plugins to server
-    await server.register([{
-      plugin: Jwt,
-      options: {}
-    }, {
-      plugin: Bell,
-      options: {}
-    }, {
-      plugin: ReqUser,
-      options: {}
-    }, {
-      plugin: Graylog,
-      options: {
-        host: Config.graylog_host,
-        port: Config.graylog_port,
-        config: { MAX_BUFFER_SIZE: 700 }
-      }
-    }
-    ])
+    await server.register([Jwt, Bell, ReqUser,
+     {plugin: GraylogPro,
+      options:{
+         adapterOptions: {
+           host: Config.graylog_host,
+           port: Config.graylog_port,
+           protocol: 'udp4'
+         }
+        }
+     }]);
 
     // Define a authentication strategies
     server.auth.strategy('jwt_strategy', 'jwt', {
@@ -58,7 +50,6 @@ const start = async function () {
 
         let value = await redisClient.get(authToken)
         if(value === 'logged-out'){
-          request.log('info',)
           return {isValid: false}
         }
 
@@ -98,7 +89,7 @@ const start = async function () {
   }
 
   console.log('Server running at:', server.info.uri)
-  server.log('info', {server_message: 'Server running at' + server.info.uri})
+  server.log(['info'], 'Server running at' + server.info.uri)
 }
 
 start()
