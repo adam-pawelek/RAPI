@@ -17,7 +17,5 @@ module.exports = {
   github_secret: 'UwtWxrAszEB32RrQJ52byASWVxfxq9sP',
   redis_host: '195.148.22.201',
   redis_port: 6379,
-  graylog_host: '195.148.22.201',
-  graylog_port: 12201
 }
 
