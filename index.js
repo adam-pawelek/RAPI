@@ -1,12 +1,14 @@
 const { sequelize, User } = require('./database')
 const Config = require('./config')
+const Routes = require('./routes')
 
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
 const Bell = require('@hapi/bell')
 const ReqUser = require('hapi-request-user')
 const { redisClient } = require('./utils/redis')
-const Routes = require('./routes')
+const Graylog = require('hapi-graylog')
+
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -18,7 +20,24 @@ const server = Hapi.server({
 const start = async function () {
   try {
     // Register plugins to server
-    await server.register([Jwt, Bell, ReqUser])
+    await server.register([{
+      plugin: Jwt,
+      options: {}
+    }, {
+      plugin: Bell,
+      options: {}
+    }, {
+      plugin: ReqUser,
+      options: {}
+    }, {
+      plugin: Graylog,
+      options: {
+        host: Config.graylog_host,
+        port: Config.graylog_port,
+        config: { MAX_BUFFER_SIZE: 700 }
+      }
+    }
+    ])
 
     // Define a authentication strategies
     server.auth.strategy('jwt_strategy', 'jwt', {
@@ -39,6 +58,7 @@ const start = async function () {
 
         let value = await redisClient.get(authToken)
         if(value === 'logged-out'){
+          request.log('info',)
           return {isValid: false}
         }
 
@@ -78,6 +98,7 @@ const start = async function () {
   }
 
   console.log('Server running at:', server.info.uri)
+  server.log('info', {server_message: 'Server running at' + server.info.uri})
 }
 
 start()
