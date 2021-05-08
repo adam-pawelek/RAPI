@@ -14,16 +14,10 @@ module.exports = function (database) {
       type: Sequelize.BOOLEAN,
       defaultValue: true
     },
-
     // Can be private (false) or public (true) for later
     isPublic: {
       type: Sequelize.BOOLEAN,
       defaultValue: true
-    },
-    userId:{
-      type: Sequelize.UUID,
-      foreignKey: true,
-      default: null
     },
     count: {
       type: Sequelize.INTEGER
