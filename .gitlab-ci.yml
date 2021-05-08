@@ -1,7 +1,8 @@
 stages:
+    - deploy
   #- build
  # - test
-  - deploy
+
 
 #build:
 #  stage: build
@@ -33,7 +34,7 @@ stages:
 #    - test_runner
 
 deploy:
-  stage: test
+  stage: deploy
   image: docker:latest
   script:
     - ls -l
