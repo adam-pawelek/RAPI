@@ -36,7 +36,7 @@ module.exports = [
         const metaData = {
           'Content-Type': ft.mime
         }
-        const filename = `image-${new Date().toDateString()}`
+        const filename =   `image-${uuid.v4()}.${ft.ext}`
 
         await minioClient.putObject(Config.bucketname, filename, data, metaData)
 
