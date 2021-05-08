@@ -3,6 +3,7 @@ const Joi = require('joi')
 const Config = require('../../config')
 const { User } = require('../../database')
 const { removeFileFromBucket } = require('../../utils/minio')
+const Boom = require('@hapi/boom')
 
 module.exports = [
   {
@@ -20,28 +21,37 @@ module.exports = [
     },
     handler: async function (request, h) {
       try {
-        //ID of image
-        let id = request.params.id
-
+        let imageId = request.params.id
         let deleted = null
+        let userScope = request.auth.credentials.scope
 
-        let file = await Image.findOne({where: {id:id}})
+        let file = await Image.findOne({ where: { id: imageId } })
+        if (!file) {
+          let error = new Error('Image does not exist')
+          throw Boom.boomify(error, { statusCode: 400 })
+        }
+        let filename = file.get('filename')
 
-        console.log('File from DB: ' +file)
-
-        if (request.auth.credentials.model.dataValues.scope === 'admin') {
-          await removeFileFromBucket(Config.bucketname, filename)
-          deleted = await Image.destroy({ where: { id: id } })
+        if (userScope == 'admin') {
+          if (!await removeFileFromBucket(Config.bucketname, filename)) {
+            let error = new Error('Deletion from bucket unsuccessful')
+            throw Boom.boomify(error, { statusCode: 500 })
+          }
+          deleted = await Image.destroy({ where: { id: imageId } })
         }
 
-        if (request.auth.credentials.model.dataValues.scope === 'user') {
+        if (userScope == 'user') {
 
           const userId = request.auth.credentials.user.id
-          const image = Image.findOne({where: { id: id }})
+          const image = await Image.findOne({ where: { id: imageId } })
 
-          if (image.userId === userId)
-            await removeFileFromBucket(Config.bucketname, filename)
-            deleted = await Image.destroy({ where: { id: id } })
+          if (image.userId === userId) {
+            if (!await removeFileFromBucket(Config.bucketname, filename)) {
+              let error = new Error('Deletion from bucket unsuccessful')
+              throw Boom.boomify(error, { statusCode: 500 })
+            }
+            deleted = await Image.destroy({ where: { id: imageId } })
+          }
         }
 
         if (deleted) {
