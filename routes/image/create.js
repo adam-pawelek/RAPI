@@ -31,6 +31,7 @@ module.exports = [
           filename: `image-${new Date().toDateString()}`,
           isAnonymous: false,
           isPublic: request.query.isPublic,
+          // TODO bug with user-id, someone removed it from the image model?!
           userId: user.id,
           count: 0
         })
