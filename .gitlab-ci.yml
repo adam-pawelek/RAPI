@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - deploy
 
 build:
   stage: build
@@ -30,3 +31,15 @@ postman_tests:
     - docker rm /restapi-container
   tags:
     - test_runner
+
+deploy:
+  stage: test
+  image: docker:latest
+  script:
+    - ls -l
+    - docker --version
+    - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
+    - docker ps -a
+  tags:
+    - test_runner
+
