@@ -25,8 +25,9 @@ module.exports = [
 
         let deleted = null
 
-        let filename = await Image.findOne({where: {id:id}}).filename
-        console.log('Filename from DB:' +filename)
+        let file = await Image.findOne({where: {id:id}})
+
+        console.log('File from DB: ' +file)
 
         if (request.auth.credentials.model.dataValues.scope === 'admin') {
           await removeFileFromBucket(Config.bucketname, filename)
@@ -49,6 +50,7 @@ module.exports = [
           throw new Error('Image not found')
         }
       } catch (error) {
+        console.log(error)
         return h.response(' Error ' + error.message).code(500)
       }
     }
