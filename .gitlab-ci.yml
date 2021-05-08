@@ -3,34 +3,34 @@ stages:
  # - test
   - deploy
 
-build:
-  stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
-  tags:
-    - general
+#build:
+#  stage: build
+#  image:
+#    name: gcr.io/kaniko-project/executor:debug
+#    entrypoint: [""]
+#  script:
+#    - mkdir -p /kaniko/.docker
+#    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+#  tags:
+#    - general
 
-postman_tests:
-  stage: test
-  image: docker:latest
-  script:
-    - docker --version
-    - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
-    - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-    - if [  "$(docker ps -a | grep 'restapi-container')" ]; then  docker stop restapi-container; docker rm restapi-container; else echo no previous container;  fi;
-    - docker run -d --name restapi-container -p 8000:8000 gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-    - newman --version
-    - curl http://0.0.0.0:8000/ping
-    - newman run https://www.getpostman.com/collections/5aa7ec40d5dad92bc8fc\?apikey\=PMAK-60925f46c52981004dc94241-754f82db650e0501dd777b46702c46c498
-    - docker stop /restapi-container
-    - docker rm /restapi-container
-  tags:
-    - test_runner
+#postman_tests:
+#  stage: test
+#  image: docker:latest
+#  script:
+#    - docker --version
+#    - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
+#    - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
+#    - if [  "$(docker ps -a | grep 'restapi-container')" ]; then  docker stop restapi-container; docker rm restapi-container; else echo no previous container;  fi;
+#    - docker run -d --name restapi-container -p 8000:8000 gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
+#    - newman --version
+#    - curl http://0.0.0.0:8000/ping
+#    - newman run https://www.getpostman.com/collections/5aa7ec40d5dad92bc8fc\?apikey\=PMAK-60925f46c52981004dc94241-754f82db650e0501dd777b46702c46c498
+#    - docker stop /restapi-container
+#    - docker rm /restapi-container
+#  tags:
+#    - test_runner
 
 deploy:
   stage: test
