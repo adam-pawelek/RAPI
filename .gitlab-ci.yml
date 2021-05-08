@@ -2,9 +2,6 @@ stages:
   - build
   - test
 
-
-
-
 build:
   stage: build
   image:
@@ -35,8 +32,8 @@ try_test_runner:
     # docker rm /restapi-container;
     - docker ps -a
     - echo $(docker ps -a | grep /restapi-container)
-   - if [  "$(docker ps -a | grep 'restapi-container')" ]; then  docker stop restapi-container; docker rm restapi-container; else echo no previous container;  fi;
-     - docker run -d --name restapi-container -p 8000:8000 gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
+    - if [  "$(docker ps -a | grep 'restapi-container')" ]; then  docker stop restapi-container; docker rm restapi-container; else echo no previous container;  fi;
+    - docker run -d --name restapi-container -p 8000:8000 gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
     #- npm install -g newman
     - newman --version
     - curl http://0.0.0.0:8000/ping
