@@ -14,6 +14,7 @@ const minioClient = new Minio.Client({
 // Just constant for easier access to bucketname
 const imagerBucketName = config.bucketname
 
+//not in use any more
 const listBucketFiles = (bucketname) => {
   return new Promise((resolve, reject) => {
     const files = []

@@ -35,28 +35,14 @@ module.exports = [
         })
       }
 
-      // Map through results and
+      // Map through results
       return images.map(image => (
         {
           ...image.toJSON(), // We dont want the whole sequelize model, just data
           // Construct a path for fetching images directly
-          fullpath: `http://minio.imager.local/${Config.bucketname}/${image.filename}`
+          fullpath: `http://minio.imager.local/${Config.bucketname}/${image.filename}`,
         }
       ))
-    }
-  },
-  {
-    method: 'GET',
-    path: '/image/minio',
-    options: {
-      auth: false
-    },
-    handler: function (request, h) {
-      /*
-        minioClient.listObjectsV2 returns a stream
-        Our utility function promisifies that
-      */
-      return listBucketFiles(Config.bucketname)
     }
   }
 ]
