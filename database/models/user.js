@@ -13,7 +13,7 @@ module.exports = function (database) {
     password: {
       type: Sequelize.TEXT
     },
-    // can be admin, user, anonymous later on
+    // can be admin or user
     scope:{
       type: Sequelize.TEXT
     }

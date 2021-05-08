@@ -20,7 +20,11 @@ module.exports = function (database) {
       type: Sequelize.BOOLEAN,
       defaultValue: true
     },
-
+    userId:{
+      type: Sequelize.UUID,
+      foreignKey: true,
+      default: null
+    },
     count: {
       type: Sequelize.INTEGER
     }
