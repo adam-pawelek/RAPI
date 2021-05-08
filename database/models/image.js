@@ -14,13 +14,11 @@ module.exports = function (database) {
       type: Sequelize.BOOLEAN,
       defaultValue: true
     },
-
     // Can be private (false) or public (true) for later
     isPublic: {
       type: Sequelize.BOOLEAN,
       defaultValue: true
     },
-
     count: {
       type: Sequelize.INTEGER
     }

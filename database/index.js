@@ -25,7 +25,7 @@ const Comment = CommentModel(sequelize)
 const Vote = VoteModel(sequelize)
 
 // Create associations for foreign keys
-Image.belongsTo(User)
+Image.belongsTo(User, {foreignKey: 'userId'})
 User.hasMany(Image)
 
 Comment.belongsTo(Image, { allowNull: false })
