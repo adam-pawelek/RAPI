@@ -1,20 +1,21 @@
 stages:
-   - test
-  # - build
+  - build
+  - test
 
 
 
-#build:
-#  stage: build
-#  image:
-#    name: gcr.io/kaniko-project/executor:debug
-#    entrypoint: [""]
-#  script:
-#    - mkdir -p /kaniko/.docker
-#    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-#    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
-#  tags:
-#    - general
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+  tags:
+    - general
 
 try_test_runner:
   stage: test
@@ -23,137 +24,26 @@ try_test_runner:
   #  - apt-get update
   #  - apt-get install -y docker.io
   script:
-   - echo "hello test runner"
-   - uname -a
-   - docker --version
-   - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
-   - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-  # - docker ps
-  # $(docker rm /restapi-container)
-  # - if[  "$(docker ps -a | grep /restapi-container)" ]; then echo "if is true"; fi;
-   # docker rm /restapi-container;
-   - docker ps -a
-   - echo $(docker ps -a | grep /restapi-container)
-   #-  if [  "$(docker ps -a | grep '/restapi-container')" ]; then
-   #       echo have a container;
-   #   fi;
-   #- if [  "$(docker ps -a | grep 'restapi-container')" ]; then  echo have a container; else echo no container;  fi;
+    - echo "hello test runner"
+    - uname -a
+    - docker --version
+    - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
+    - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
+    # - docker ps
+    # $(docker rm /restapi-container)
+    # - if[  "$(docker ps -a | grep /restapi-container)" ]; then echo "if is true"; fi;
+    # docker rm /restapi-container;
+    - docker ps -a
+    - echo $(docker ps -a | grep /restapi-container)
    - if [  "$(docker ps -a | grep 'restapi-container')" ]; then  docker stop restapi-container; docker rm restapi-container; else echo no previous container;  fi;
-   #- docker rm /restapi-container
-   # -  if [  "$(docker ps -a | grep /restapi-container)" ]; then  echo expression evaluated as true;  fi;
-   - docker run -d --name restapi-container -p 8000:8000 gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-   #- npm install -g newman
-   - newman --version
-   - curl http://0.0.0.0:8000/ping
-   - newman run https://www.getpostman.com/collections/5aa7ec40d5dad92bc8fc\?apikey\=PMAK-60925f46c52981004dc94241-754f82db650e0501dd777b46702c46c498
-   #- newman run TestCI.postman_collection.json
- #  - newman run ServiceOrientedApplications.postman_collection.json
-   - docker stop /restapi-container
-   - docker rm /restapi-container
+     - docker run -d --name restapi-container -p 8000:8000 gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
+    #- npm install -g newman
+    - newman --version
+    - curl http://0.0.0.0:8000/ping
+    - newman run https://www.getpostman.com/collections/5aa7ec40d5dad92bc8fc\?apikey\=PMAK-60925f46c52981004dc94241-754f82db650e0501dd777b46702c46c498
+    #- newman run TestCI.postman_collection.json
+    #  - newman run ServiceOrientedApplications.postman_collection.json
+    - docker stop /restapi-container
+    - docker rm /restapi-container
   tags:
-   - test_runner
-
-
-
-
-#try_test_runner:
-#  stage: test
-#  image: ubuntu:latest
-#  #before_script:
-#  #  - apt-get update
-#  #  - apt-get install -y docker.io
-#  script:
-#   - echo "hello test runner"
-#   - uname -a
-#   - docker --version
-#   - dockerd
-#   - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
-#   - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-#  tags:
-#   - test_runner
-
-
-#with_docker:
-#  stage: test
-#  image: ubuntu:latest
-#  before_script:
-#    - apt-get update
-#    - apt-get install -y docker.io
-#  script:
-#    - echo "hello"
-#    - docker --version
-#    - dockerd
-#    - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
-#    - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-#  tags:
-#    - general
-
-#try_node_without_docker:
-#  stage: test
-##  #image: docker:latest
-#  image: ubuntu:latest
-#  script:
-#  - echo "hello"
-#  - apt update
-#  - apt install curl -y
-# # - curl http://api.imager.local/ping
-#  - curl -sL https://deb.nodesource.com/setup_14.x |  bash -
-#  - apt install nodejs -y
-#  - ls -l
-#  - ln -s `which nodejs` /usr/bin/node
-#  - node --version
-#  - npm -v
-#  - npm install
-#  - node index.js
-  # do postman next
-#  tags:
-#  - test_runner
-#  #- general
-
- # - docker build -t soa_rest .
- # - docker run -d --name restapi-container -p 8000:8000 soa_rest
- # - npm install -g newman
-#  newman run https://www.getpostman.com/collections/5aa7ec40d5dad92bc8fc\?apikey\=PMAK-60925f46c52981004dc94241-754f82db650e0501dd777b46702c46c498
-#  - docker run -v $(pwd)/test:/etc/newman -t postman/newman:latest run "TestCI.postman_collection.json"  --reporters cli,html --reporter-html-export report.html
-#  - echo "$CSC_USER"
-#  - echo $CSC_USER
- # - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
- # - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
- # tags:
- #   - general
-
-#tryubuntu:
-#  stage: test
-  #image: ubuntu-latest
-#  image:
-#    name: ubuntu:latest
-#    entrypoint: [""]
-#  before_script:
-#    - apt-get update
-#    - apt-get install -y docker.io
-#  script:
-#    - echo "hello"
-#    - dockerd
-#    - docker --version
-#  tags:
-#    - general
-
-#postman_tests:
-#  stage: test
-#  image:
-#    name: postman/newman:alpine
-#    entrypoint: [""]
-#  script:
-#    - newman --version
-#    - echo "$CI_JOB_STAGE"
-#    - npm install -g newman-reporter-html
-#    - docker --version
-#   # - docker run -d --name restapi -p 8000:8000 $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
-#    - node index.js
-#    - newman run TestCI.postman_collection.json --reporters cli,html --reporter-html-export report.html
-#  artifacts:
-#    when: always
-#    paths:
-#      - report.html
-#  tags:
-#    - general
+    - test_runner
