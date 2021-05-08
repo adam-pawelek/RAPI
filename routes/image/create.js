@@ -43,13 +43,13 @@ module.exports = [
         let postedImage
 
         if (request.auth.isAuthenticated === true) {
-          const user = request.auth.credentials.user
+          //const user = request.auth.credentials.user
 
           postedImage = await Image.create({
             filename: filename,
             isAnonymous: false,
             isPublic: request.query.isPublic,
-            userId: user.id,
+            userId: request.auth.credentials.user.id,
             count: 0
           })
         } else {
@@ -60,6 +60,7 @@ module.exports = [
 
         return postedImage
       } catch (e) {
+        console.log(e)
         return h.response('Image upload was not possible ' + e.message).code(500)
       }
     }

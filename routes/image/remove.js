@@ -25,15 +25,21 @@ module.exports = [
 
         let deleted = null
 
+        let filename = await Image.findOne({where: {id:id}}).filename
+        console.log('Filename from DB:' +filename)
+
         if (request.auth.credentials.model.dataValues.scope === 'admin') {
+          await removeFileFromBucket(Config.bucketname, filename)
           deleted = await Image.destroy({ where: { id: id } })
         }
+
         if (request.auth.credentials.model.dataValues.scope === 'user') {
 
           const userId = request.auth.credentials.user.id
           const image = Image.findOne({where: { id: id }})
 
           if (image.userId === userId)
+            await removeFileFromBucket(Config.bucketname, filename)
             deleted = await Image.destroy({ where: { id: id } })
         }
 
