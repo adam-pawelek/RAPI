@@ -39,10 +39,12 @@ deploy:
   script:
     - ls -l
     - docker --version
-    - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
-    - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
-    - docker ps -a
-    - docker-compose up -d imager-api
+    - cd ../
+    - ls -l
+  #  - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
+  #  - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
+  #  - docker ps -a
+  #  - docker-compose up -d imager-api
   tags:
     - test_runner
 
