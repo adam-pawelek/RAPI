@@ -3,6 +3,23 @@
 This is an example project used during the Zoom sessions.
 This repository showcases so of the options and way of developing the REST API.
 
+## Final report
+### Time tracking
+Vanessa:
+  single work: 40 hours (check GitLab assigned issues for detail overview)
+  group work: 13 hours
+
+### Parts of the projects, that were easy
+- The route, were you had early an idea how to do it were good
+
+### Parts that were hard
+- Connect new bits to the existing code, because I was unsure about the communication between the parts
+- Use external services and make them known to each other (like Redis or Graylog)
+
+### Greatest learning experience
+- Use a simple framework and add just the parts you needed, was a cool experience
+- I learned a lot of small things and understand the concept of service oriented applications better
+
 ## Node modules
 To you can take a look at the package.json file to see what node modules are installed
 
