@@ -7,7 +7,7 @@ This repository showcases so of the options and way of developing the REST API.
 ### Time tracking
 
 - Vanessa: 120 hours
-- Adam: 90h 
+- Adam: 90 hours 
 
 ### Parts of the projects, that were easy
 - The route, were you had early an idea how to do it were good
