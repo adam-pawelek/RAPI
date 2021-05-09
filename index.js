@@ -1,12 +1,14 @@
 const { sequelize, User } = require('./database')
 const Config = require('./config')
+const Routes = require('./routes')
 
 const Hapi = require('@hapi/hapi')
 const Jwt = require('@hapi/jwt')
 const Bell = require('@hapi/bell')
 const ReqUser = require('hapi-request-user')
 const { redisClient } = require('./utils/redis')
-const Routes = require('./routes')
+const GraylogPro = require('hapi-graylog-pro')
+
 
 // Create a server with a host and port
 const server = Hapi.server({
@@ -18,7 +20,16 @@ const server = Hapi.server({
 const start = async function () {
   try {
     // Register plugins to server
-    await server.register([Jwt, Bell, ReqUser])
+    await server.register([Jwt, Bell, ReqUser,
+     {plugin: GraylogPro,
+      options:{
+         adapterOptions: {
+           host: Config.graylog_host,
+           port: Config.graylog_port,
+           protocol: 'udp4'
+         }
+        }
+     }]);
 
     // Define a authentication strategies
     server.auth.strategy('jwt_strategy', 'jwt', {
@@ -78,6 +89,7 @@ const start = async function () {
   }
 
   console.log('Server running at:', server.info.uri)
+  server.log(['info'], 'Server running at' + server.info.uri)
 }
 
 start()
