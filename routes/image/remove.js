@@ -20,12 +20,17 @@ module.exports = [
       }
     },
     handler: async function (request, h) {
-      try {
         let imageId = request.params.id
         let deleted = null
         let userScope = request.auth.credentials.scope
 
-        let file = await Image.findOne({ where: { id: imageId } })
+        let file;
+        try{
+         file = await Image.findOne({ where: { id: imageId } })
+        } catch (e)  {
+          let error = new Error('Image does not exist')
+          throw Boom.boomify(error, { statusCode: 400 })
+        }
         if (!file) {
           let error = new Error('Image does not exist')
           throw Boom.boomify(error, { statusCode: 400 })
@@ -41,7 +46,6 @@ module.exports = [
         }
 
         if (userScope == 'user') {
-
           const userId = request.auth.credentials.user.id
           const image = await Image.findOne({ where: { id: imageId } })
 
@@ -51,18 +55,19 @@ module.exports = [
               throw Boom.boomify(error, { statusCode: 500 })
             }
             deleted = await Image.destroy({ where: { id: imageId } })
+          } else {
+            console.log('here2');
+            let error = new Error('Not allowed: This is not your image')
+            throw Boom.boomify(error, { statusCode: 401 })
           }
         }
 
         if (deleted) {
           return h.response('Image deleted successfully').code(200)
         } else {
-          throw new Error('Image not found')
+          let error = new Error('Image does not exist!')
+          throw Boom.boomify(error, { statusCode: 400 })
         }
-      } catch (error) {
-        console.log(error)
-        return h.response(' Error ' + error.message).code(500)
-      }
     }
   },
   {
