@@ -20,7 +20,7 @@ To you can take a look at the package.json file to see what node modules are ins
 - [ ] GET /image?limit=10&page=1 --> for DB done
 - [ ] GET /image/trending
 - [x] DELETE /image/<image-id> --> for DB & minio done (*)
-- [ ] PUT /image/<image-id>/vote
+- [x] PUT /image/<image-id>/vote
 - [ ] PUT /image/<image-id>/favorite
 - [ ] POST /image/<image-id>/comment -> CREATE
 - [x] POST /image/<image-id>/report
