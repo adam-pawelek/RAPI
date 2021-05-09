@@ -18,6 +18,7 @@ module.exports = [
       let images
       let id = request.params.id
       let userId = request.auth.credentials.user.id
+      let wasUpdated = 1
 
 
       images = await Image.findAll()
@@ -68,9 +69,11 @@ module.exports = [
                 userId: userId} }
           )
 
+        }else{
+          wasUpdated = 0
         }
       }catch (error) {
-        console.error(error);
+        return h.response('Wrong ID').code(400);
         // expected output: ReferenceError: nonExistentFunction is not defined
         // Note - error messages will vary depending on browser
       }
@@ -79,13 +82,11 @@ module.exports = [
 
 
 
-      return images.map(image => (
-        {
-          ...image.toJSON(), // We dont want the whole sequelize model, just data
-          // Construct a path for fetching images directly
-          fullpath: `http://minio.imager.local/${Config.bucketname}/${image.filename}`
-        }
-      ))
+      if (wasUpdated === 1) {
+        return h.response('Upvote correctly').code(200);
+      }else {
+        return h.response('This user can not Upvote more than 1 time').code(400);
+      }
 
 
     }
