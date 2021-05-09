@@ -10,7 +10,7 @@ Vanessa:
   - group work: 13 hours
 
 Adam:
-  -90h 
+  - 90h 
 
 ### Parts of the projects, that were easy
 - The route, were you had early an idea how to do it were good
