@@ -8,9 +8,9 @@ This repository showcases so of the options and way of developing the REST API.
 Vanessa:
   - single work: 40 hours (check GitLab assigned issues for detail overview)
   - group work: 13 hours
-  <br>
+
 Adam:
-  - 90h work
+  -90h 
 
 ### Parts of the projects, that were easy
 - The route, were you had early an idea how to do it were good
