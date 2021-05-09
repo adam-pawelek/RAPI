@@ -1,7 +1,7 @@
 ## TTOW0130 example project
 
-This is an example project used during the Zoom sessions.
 This repository showcases so of the options and way of developing the REST API.
+It represents a image gallery service, as a backend API.
 
 API-documentation: https://documenter.getpostman.com/view/10805964/TzRREUos <br>
 Postman workspace: https://app.getpostman.com/join-team?invite_code=66a491968d4c035e3ba409b703bc6bba&ws=ab49a768-fe41-4886-9d2d-d7d49badd64c
@@ -11,7 +11,8 @@ Postman workspace: https://app.getpostman.com/join-team?invite_code=66a491968d4c
 
 - Vanessa: 120 hours
 - Adam: 90 hours 
-- Tabea: 97 hours
+- Tabea: 99 hours
+- Viacheslav: 100 hours
 
 ### Parts of the projects, that were easy
 - The routes, were you had early an idea how to do it, were good
