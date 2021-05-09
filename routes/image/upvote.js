@@ -84,7 +84,7 @@ module.exports = [
 
       if (wasUpdated === 1) {
         return h.response('Upvote correctly').code(200);
-      }else {
+      }if (wasUpdated === 0) {
         return h.response('This user can not Upvote more than 1 time').code(400);
       }
 
