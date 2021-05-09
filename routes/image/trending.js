@@ -19,13 +19,14 @@ module.exports = [
       let userId = request.auth.credentials.user.id
 
 
-      images = await Image.findAll()
+    //  images = await Image.findAll()
 
       const myVote = await Image.findAll(
         {
           order: [
             ['count', 'DESC']
-          ]
+          ],
+          limit: 10
         }
       );
 

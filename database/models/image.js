@@ -20,7 +20,8 @@ module.exports = function (database) {
       defaultValue: true
     },
     count: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     }
   })
 }
