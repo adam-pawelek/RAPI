@@ -31,3 +31,10 @@ Postman workspace: https://app.getpostman.com/join-team?invite_code=66a491968d4c
 - We learned a lot of small things and understand the concept of service oriented applications better
 - Working with the team on the new technology.
 - Using a more complex system of services, interesting new technologies and concepts
+
+### What we implemented and what we left out
+We implemented almost all requirements (from core, advanced, extra and special requirements listed at the assignment page).<br>
+We did not implement "Ability to download favorites as a zip / export". We worked on "external logging server" but had some problems so we could not finish that one, but you can see our attempt in the repository.<br>
+Postman offers the possibility to create a shared collection for a team in which we put in all the request. It is also possible in postman to write testscripts in it for the requests, that can also be run as a testsuite in the CI-pipeline, what we did. <br>
+
+
