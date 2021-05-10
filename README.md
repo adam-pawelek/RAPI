@@ -34,8 +34,13 @@ Postman workspace: https://app.getpostman.com/join-team?invite_code=66a491968d4c
 
 ### What we implemented and what we left out
 We implemented almost all requirements (from core, advanced, extra and special requirements listed at the assignment page).<br>
+For every REST endpoint that we created we thought about possible errors or checked for falsy requests. In that case we send an error message and a spefic http-error-code that matches. <br> 
 We did not implement "Ability to download favorites as a zip / export". We worked on "external logging server" but had some problems so we could not finish that one, but you can see our attempt in the repository.<br>
 Postman offers the possibility to create a shared collection for a team in which we put in all the request. It is also possible in postman to write testscripts in it for the requests, that can also be run as a testsuite in the CI-pipeline, what we did. The test cover some main features, not every request or possible usecase flow, because it was said in the lecture, that this would be enough to show we can apply the concept.<br>
 For the documentation we also tried out a feautre of postman. It has some nice features and resulted in a pleasing documentation. But it's nessessary to be either a member of the postman-workspace or set the workspace to public to see it, at least in the free version. Maybe swagger is a better option for future projects. 
+
+### Process
+We worked in a group of four. In the gitlab repository we created milestones, issues and a kanban board to keep track of the requirement and our progress. With the milestones we were able to track how much of "core functionality" or "extra credits" was done. As tools we used gitlab, editors from intellij, a group chat, screensharing on teams for pairprogramming sometimes and postman. We talked every week about the progress and inbetween while working on the topics.
+
 
 
