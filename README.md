@@ -45,17 +45,17 @@ We worked in a group of four. In the gitlab repository we created milestones, is
 
 ### Appendix
 
-###Logout
-####The problem: 
+### Logout
+#### The problem: 
 The nature of the json-webtoken is, that it is a hash that will be handed to the client / user. It stores the information when it will expire, but it is not possibily to revoke it inbetween. We only work on the backend api, so we do not have access on the token once we gave it to the client. Some applications, that also deal with the client, delete the token but that is not possibile in our case. <br>
 Unfortunately there seems to be no build-in solution for this problem in the hapi jwt library, so we had to create one of our own.<br>
-####Solution: 
+#### Solution: 
 We created a redis service, in which we "blacklist" the tokens, which are used by a user on logout. Everytime, the token is required, the server checks if the token is on this list and interprets it as invalid in that case.
 To achieve this we extended the server.auth.strategy, the server checks the validate function. This is a pretty solution, that is done at a central position and does not blow up the other requests. <br>
 For the redis we had to advance the docker-compose and also had to add new firewall rules in the csc pouta to make service accessible on this port. The current state of our docker-compose.yml can be found in the directory "for_documentation".
 
-###Pipeline and automated tests: (With how to)
-####Continous integration: 
+### Pipeline and automated tests: (With how to)
+#### Continous integration: 
 The first step in the CI pipeline was to create the build step, that builds the docker on every push and puts it into the registry. 
 For this step we followed mostly the hands-on session video, there were some problems on the way, but they were solved in the end.<br>
 I first made the  tests work in postman itself and then run them on the command line with newman. 
@@ -96,7 +96,7 @@ It is more complicated than in a simple project, to work with multiple services 
 </details>
 
 
-####Opinion about postman
+#### Opinion about postman
 Postman is a pretty powerful tool to work on a shared collection while creating an api. It also has a good documentation and tutorials.<br>
 We would strongly recommend using this or similar tools. It is great that tests from postman can be run automatically in the pipeline. 
 <br>But in that way we experienced the tests scripts, these are not really great to test more complex user-flows, more for individual tests on each request without shared information.
@@ -122,9 +122,10 @@ So we still have to deploy it by hand at the moment, by logging in to the server
 </details>
 
 
-####Docker-compose.yml in infra
+#### Docker-compose.yml in infra
 We made some changes in the docker compose to expose ports and allow the services connect to each other. The current state of our docker-compose.yml can be found in the directory "for_documentation".
-Noticeable is the configuration of „imager-api“, that defines the environment variables in production for the gallery-rest-api itself.
+Noticeable is the configuration of „imager-api“, that defines the environment variables in production for the gallery-rest-api itself.<br>
+Now the app can be reached at api.imager.local/ (If the caller has access accoring to the firewall rules.)
 
 <details>
   <summary>Our current configuration: imager api</summary>
