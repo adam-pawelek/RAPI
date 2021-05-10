@@ -40,7 +40,7 @@ Postman offers the possibility to create a shared collection for a team in which
 For the documentation we also tried out a feautre of postman. It has some nice features and resulted in a pleasing documentation. But it's nessessary to be either a member of the postman-workspace or set the workspace to public to see it, at least in the free version. Maybe swagger is a better option for future projects. 
 
 ### Process
-We worked in a group of four. In the gitlab repository we created milestones, issues and a kanban board to keep track of the requirement and our progress. With the milestones we were able to track how much of "core functionality" or "extra credits" was done. As tools we used gitlab, editors from intellij, a group chat, screensharing on teams for pairprogramming sometimes and postman. We talked every week about the progress and inbetween while working on the topics.
+We worked in a group of four. In the gitlab repository we created milestones, issues and a kanban board to keep track of the requirement and our progress. With the milestones and the board we were able to track how much of "core functionality" or "extra credits" was done. As tools we used gitlab, editors from intellij, a group chat, screensharing on teams for pairprogramming sometimes and postman. We talked every week about the progress and inbetween while working on the topics.
 
 
 
