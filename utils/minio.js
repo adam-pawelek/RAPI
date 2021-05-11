@@ -4,17 +4,17 @@ const config = require('../config')
 // Create our client to connect to minio / S3
 // https://docs.min.io/docs/javascript-client-api-reference.html
 const minioClient = new Minio.Client({
-  // TODO: Maybe move these to config?
-  endPoint: 'minio.imager.local',
-  port: 80,
-  useSSL: false,
-  accessKey: 'minio',
-  secretKey: 'minio123'
+  endPoint: config.minio_endpoint,
+  port: parseInt(config.minio_port, 10),
+  useSSL: config.minio_useSSL==='true'?true:false,
+  accessKey: config.minio_accesskey,
+  secretKey: config.minio_password
 })
 
 // Just constant for easier access to bucketname
 const imagerBucketName = config.bucketname
 
+//not in use any more
 const listBucketFiles = (bucketname) => {
   return new Promise((resolve, reject) => {
     const files = []
@@ -25,6 +25,19 @@ const listBucketFiles = (bucketname) => {
     stream.on('end', () => { resolve(files) })
     // Reject on error
     stream.on('error', (err) => { reject(err) })
+  })
+}
+
+
+const removeFileFromBucket = (bucketname, filename) => {
+  return new Promise((resolve, reject) => {
+    return minioClient.removeObject(bucketname, filename, function(err) {
+      if (err) {
+         reject('Unable to remove object', err);
+      } else {
+         resolve('Removed the object');
+      }
+    })
   })
 }
 
@@ -66,5 +79,6 @@ setupMinio()
 
 module.exports = {
   listBucketFiles,
+  removeFileFromBucket,
   minioClient
 }

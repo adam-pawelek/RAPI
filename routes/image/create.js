@@ -3,62 +3,65 @@ const uuid = require('uuid')
 const Config = require('../../config')
 const { Image } = require('../../database')
 const { minioClient } = require('../../utils/minio')
+const Joi = require('joi')
+const Boom = require('@hapi/boom')
 
 module.exports = [
   {
     method: 'POST',
     path: '/image',
-    handler: function (request, h) {
-      return Image.create({
-        // Storing with date as filename is bad and can cause collisions
-        filename: `image-${new Date().toDateString()}`
-      })
-    }
-  },
-  {
-    method: 'POST',
-    path: '/image/minio',
-    /*
-    You might want to disable authentication when developing
     options: {
-      auth: false
+      auth: {
+        strategy: 'jwt_strategy',
+        mode: 'try',
+      },
+      validate: {
+        query: Joi.object({
+          isPublic: Joi.bool().default(true)
+        })
+      }
     },
-    */
     handler: async function (request, h) {
       try {
+        if(request.payload === null){
+          let error = new Error('Payload is empty')
+          throw Boom.boomify(error, {statusCode: 400})
+        }
+
         // Read image base64 data to buffer
         const data = Buffer.from(request.payload.imagedata, 'base64')
-
         // Detect file extension and mime type
         const ft = await FileType.fromBuffer(data)
-
-        // Construct unique image name with uuid's
-        const filename = `${uuid.v4()}.${ft.ext}`
-
         // Add metadata to uploaded file so minio understands our file better
         const metaData = {
           'Content-Type': ft.mime
         }
+        const filename =   `image-${uuid.v4()}.${ft.ext}`
 
-        // Put the image data to minio bucket
         await minioClient.putObject(Config.bucketname, filename, data, metaData)
-        console.log(`Stored image: ${filename} to ${Config.bucketname}.`)
 
-        // Store the filename to our database
-        const image = await Image.create({
-          filename
-        })
+        let postedImage
 
-        // If the user is authenticated set the image owner to the user
-        if (request.auth.credentials.model) {
-          await image.setUser(request.auth.credentials.model)
+        if (request.auth.isAuthenticated === true) {
+          //const user = request.auth.credentials.user
+
+          postedImage = await Image.create({
+            filename: filename,
+            isAnonymous: false,
+            isPublic: request.query.isPublic,
+            userId: request.auth.credentials.user.id,
+            count: 0
+          })
+        } else {
+          postedImage = Image.create({
+            filename: filename
+          })
         }
 
-        // Return the image database object
-        return image
-      } catch (error) {
-        console.error(error)
-        return { error }
+        return postedImage
+      } catch (e) {
+        console.log(e)
+        return h.response('Image upload was not possible ' + e.message).code(500)
       }
     }
   }

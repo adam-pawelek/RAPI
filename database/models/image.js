@@ -9,6 +9,19 @@ module.exports = function (database) {
     },
     filename: {
       type: Sequelize.TEXT
+    },
+    isAnonymous: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
+    },
+    // Can be private (false) or public (true) for later
+    isPublic: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true
+    },
+    count: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     }
   })
 }
