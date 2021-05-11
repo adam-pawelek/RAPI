@@ -1,20 +1,20 @@
 stages:
-  - build
   - deploy
+  #- build
  # - test
 
 
-build:
-  stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
-  tags:
-    - general
+#build:
+#  stage: build
+#  image:
+#    name: gcr.io/kaniko-project/executor:debug
+#    entrypoint: [""]
+#  script:
+#    - mkdir -p /kaniko/.docker
+#    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+#  tags:
+#    - general
 
 #postman_tests:
 #  stage: test
@@ -41,6 +41,7 @@ deploy:
     - docker --version
     - cd ../
     - ls -l
+  #  - todo login via ssh to server
   #  - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
   #  - docker pull gitlab.labranet.jamk.fi:4567/aa9358/service-oriented-applications:latest
   #  - docker ps -a
