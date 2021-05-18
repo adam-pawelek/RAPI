@@ -20,7 +20,7 @@ build-for-production:
   stage: build
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
-      when: always
+      when: on_success
     - if: $CI_COMMIT_BRANCH != "master"
       when: never  
   image:
@@ -54,7 +54,7 @@ deploy:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
-      when: always
+      when: on_success
     - if: $CI_COMMIT_BRANCH != "master"
       when: manual  
   image: docker:latest 
