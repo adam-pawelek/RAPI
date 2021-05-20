@@ -36,6 +36,8 @@ build-for-production:
 postman_tests:
   stage: test
   image: docker:latest
+  needs: ["build-for-tests"]
+  when: on_success
   script:
     - docker --version
     - docker login -u "$CSC_USER"  -p "$CSC_KEY"  gitlab.labranet.jamk.fi:4567
