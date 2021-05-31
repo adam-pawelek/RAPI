@@ -1,3 +1,8 @@
+#RAPI
+This is a copy of a group project that I was a member of.
+Link to original repository -> https://gitlab.labranet.jamk.fi/AA9358/service-oriented-applications
+
+
 ## TTOW0130 example project
 
 This repository showcases so of the options and way of developing the REST API.
